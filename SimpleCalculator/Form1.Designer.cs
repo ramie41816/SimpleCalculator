@@ -377,6 +377,7 @@ namespace SimpleCalculator
             squaredButton.TabIndex = 18;
             squaredButton.Text = "x²";
             squaredButton.UseVisualStyleBackColor = false;
+            squaredButton.Click += squaredButton_Click;
             // 
             // squareRootButton
             // 
@@ -390,6 +391,7 @@ namespace SimpleCalculator
             squareRootButton.TabIndex = 17;
             squareRootButton.Text = "√";
             squareRootButton.UseVisualStyleBackColor = false;
+            squareRootButton.Click += squareRootButton_Click;
             // 
             // positveNegativeButton
             // 

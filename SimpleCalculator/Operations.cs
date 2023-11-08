@@ -1,4 +1,6 @@
-﻿namespace SimpleCalculator
+﻿using System.Linq.Expressions;
+
+namespace SimpleCalculator
 {
     internal class Operations
     {
@@ -23,11 +25,17 @@
                 {
                     this.c = this.a / this.b;
                 }
-                catch(DivideByZeroException)
+                catch (DivideByZeroException)
                 {
-                    return;
+                    throw;
                 }
             }
+            else if (mode == "1/x")
+                this.c = 1 / this.b;
+            else if (mode == "sqr")
+                this.c = (decimal)Math.Sqrt((double)this.b);
+            else if (mode == "x2")
+                this.c = (decimal) Math.Pow((double)this.b, 2);
             else
                 this.c = 0;
         }
