@@ -7,11 +7,12 @@ namespace SimpleCalculator
     {
 
         private readonly int maxLength = 13;
+        private decimal memory = 0;
         private bool operatorSet = false;
         private bool operationStart = false;
         private bool entryReset = false;
         private string? currentOperation;
-        private readonly string specialFunctions = "equ|per|1/x|sqr";
+        private readonly string specialFunctions = "equ|per|1/x|sqr|x2";
         private Operations system = new Operations();
         private Queue operationQueue = new Queue();
 
@@ -297,7 +298,7 @@ namespace SimpleCalculator
             {
                 if (operationQueue.Count > 0)
                 {
-                    if (!specialFunctions.Contains(String.Format("{0}",operationQueue.Peek())))
+                    if (!specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
                     {
                         system.B = decimal.Parse(currentOperandTextBox.Text);
                     }
@@ -489,18 +490,17 @@ namespace SimpleCalculator
 
         private void equalsButton_Click(object sender, EventArgs e)
         {
-            
+
             if (operationQueue.Count > 0)
             {
-                if (String.Format("{0}",  operationQueue.Peek()) != "equ")
+
+                if (String.Format("{0}", operationQueue.Peek()) != "equ")
                 {
                     currentOperation = String.Format("{0}", operationQueue.Dequeue());
 
                     if (currentOperation == "x2")
                     {
-                        system.B = decimal.Parse(currentOperandTextBox.Text);
-                        system.calculate(currentOperation);
-                        secondOperandTextBox.Text = String.Format("({0})² = ", system.C);
+                        secondOperandTextBox.Text = String.Format("({0})² = ", system.B);
                     }
                     else if (currentOperation == "sqr")
                     {
@@ -520,7 +520,7 @@ namespace SimpleCalculator
                     system.calculate(currentOperation);
                 }
 
-                
+
                 currentOperandTextBox.Text = $"{system.C}";
                 entryReset = true;
             }
@@ -528,7 +528,6 @@ namespace SimpleCalculator
 
         private void percentageButton_Click(object sender, EventArgs e)
         {
-            entryReset = true;
 
             if ("mul|div".Contains(String.Format("{0}", operationQueue.Peek())))
             {
@@ -546,6 +545,7 @@ namespace SimpleCalculator
                 secondOperandTextBox.Text = String.Format("{0} {1} {2}", system.B, operationQueue.Dequeue(), system.C);
             }
 
+            entryReset = true;
             operationQueue.Enqueue("per");
         }
 
@@ -556,7 +556,7 @@ namespace SimpleCalculator
 
             try
             {
-                if (operationQueue.Count > 0 && currentOperation != "1/x")
+                if (operationQueue.Count > 0 && !specialFunctions.Contains(currentOperation))
                 {
                     system.B = decimal.Parse(currentOperandTextBox.Text);
                     system.calculate("1/x");
@@ -579,15 +579,15 @@ namespace SimpleCalculator
 
             operationStart = true;
             entryReset = true;
-            operationQueue.Enqueue("1/x"); 
+            operationQueue.Enqueue("1/x");
         }
 
         private void squareRootButton_Click(object sender, EventArgs e)
         {
 
-            currentOperation = operationQueue.Count > 0 ? String.Format("{0}",operationQueue.Peek()) : "N/A";
+            currentOperation = operationQueue.Count > 0 ? String.Format("{0}", operationQueue.Peek()) : "N/A";
 
-            if (operationQueue.Count > 0 && currentOperation != "sqr")
+            if (operationQueue.Count > 0 && !specialFunctions.Contains(currentOperation))
             {
                 system.B = decimal.Parse(currentOperandTextBox.Text);
                 system.calculate("sqr");
@@ -611,7 +611,7 @@ namespace SimpleCalculator
         {
             currentOperation = operationQueue.Count > 0 ? String.Format("{0}", operationQueue.Peek()) : "N/A";
 
-            if (operationQueue.Count > 0 && currentOperation != "x2")
+            if (operationQueue.Count > 0 && !specialFunctions.Contains(currentOperation))
             {
                 system.B = decimal.Parse(currentOperandTextBox.Text);
                 system.calculate("x2");
@@ -694,6 +694,26 @@ namespace SimpleCalculator
         private void ceButton_Click(object sender, EventArgs e)
         {
             currentOperandTextBox.Text = "0";
+        }
+
+        private void mPositiveButton_Click(object sender, EventArgs e)
+        {
+            memory += decimal.Parse(currentOperandTextBox.Text);
+        }
+
+        private void mNegativeButton_Click(object sender, EventArgs e)
+        {
+            memory -= decimal.Parse(currentOperandTextBox.Text);
+        }
+
+        private void mcButton_Click(object sender, EventArgs e)
+        {
+            memory = 0;
+        }
+
+        private void mrButton_Click(object sender, EventArgs e)
+        {
+            currentOperandTextBox.Text = memory.ToString();
         }
 
         private char setOperator()

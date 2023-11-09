@@ -464,6 +464,7 @@ namespace SimpleCalculator
             mrButton.TabIndex = 12;
             mrButton.Text = "MR";
             mrButton.UseVisualStyleBackColor = false;
+            mrButton.Click += mrButton_Click;
             // 
             // mPositiveButton
             // 
@@ -478,6 +479,7 @@ namespace SimpleCalculator
             mPositiveButton.TabIndex = 11;
             mPositiveButton.Text = "M+";
             mPositiveButton.UseVisualStyleBackColor = false;
+            mPositiveButton.Click += mPositiveButton_Click;
             // 
             // mNegativeButton
             // 
@@ -492,6 +494,7 @@ namespace SimpleCalculator
             mNegativeButton.TabIndex = 10;
             mNegativeButton.Text = "M-";
             mNegativeButton.UseVisualStyleBackColor = false;
+            mNegativeButton.Click += mNegativeButton_Click;
             // 
             // mcButton
             // 
@@ -506,6 +509,7 @@ namespace SimpleCalculator
             mcButton.TabIndex = 0;
             mcButton.Text = "MC";
             mcButton.UseVisualStyleBackColor = false;
+            mcButton.Click += mcButton_Click;
             // 
             // formulaFlowLayoutPanel
             // 
