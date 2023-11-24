@@ -526,7 +526,7 @@ namespace SimpleCalculator
             currentOperandTextBox.BorderStyle = BorderStyle.None;
             currentOperandTextBox.Font = new Font("Consolas", 27.75F, FontStyle.Bold, GraphicsUnit.Point);
             currentOperandTextBox.Location = new Point(3, 43);
-            currentOperandTextBox.MaxLength = 14;
+            currentOperandTextBox.MaxLength = 15;
             currentOperandTextBox.Name = "currentOperandTextBox";
             currentOperandTextBox.ReadOnly = true;
             currentOperandTextBox.Size = new Size(283, 44);
@@ -549,6 +549,7 @@ namespace SimpleCalculator
             secondOperandTextBox.TabIndex = 1;
             secondOperandTextBox.TabStop = false;
             secondOperandTextBox.TextAlign = HorizontalAlignment.Right;
+            secondOperandTextBox.TextChanged += secondOperandTextBox_TextChanged;
             // 
             // MainForm
             // 

@@ -1,21 +1,34 @@
 ﻿using Microsoft.VisualBasic;
 using System.Collections;
+using System.Configuration;
+using System.Drawing.Design;
+using System.Drawing.Text;
+using System.Globalization;
+using System.Linq.Expressions;
+using System.Net.NetworkInformation;
+using System.Security.Policy;
 
 namespace SimpleCalculator
 {
     public partial class MainForm : Form
     {
 
-        private readonly int maxLength = 13;
-        private decimal memory = 0;
-        private bool operatorSet = false;
-        private bool operationStart = false;
-        private bool entryReset = false;
-        private string? currentOperation;
-        private readonly string specialFunctions = "equ|per|1/x|sqr|x2";
-        private Operations system = new Operations();
-        private Queue operationQueue = new Queue();
+        private readonly byte MAX_LENGTH = 20;
+        private double memory = 0;
 
+        private bool operator_is_set = false;
+        private bool start_operation = false;
+        private bool reset_entry = false;
+        private bool clear = false;
+
+        private double first_term = 0;
+        private double second_term = 0;
+
+        private Queue operations = new Queue();
+
+        private string? current_operation;
+
+        private char operator_symbol = '\0';
 
         public MainForm()
         {
@@ -27,711 +40,585 @@ namespace SimpleCalculator
 
         private void zeroButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text != "0" && currentOperandTextBox.TextLength <= maxLength && !entryReset)
-                currentOperandTextBox.Text += '0';
-            else if (entryReset)
+            if (reset_entry)
             {
-                currentOperandTextBox.Text = "0";
-                entryReset = false;
-            }
+                if (clear)
+                    erase("clear");
 
-            if (operatorSet)
-                operationStart = true;
+                currentOperandTextBox.Text = "0";
+                reset_entry = false;
+            }
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH && currentOperandTextBox.Text != "0")
+                 currentOperandTextBox.Text += '0';
+                
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void oneButton_Click(object sender, EventArgs e)
         {
+            if (reset_entry || currentOperandTextBox.Text == "0")
+            {
+                if (clear)
+                    erase("clear");
 
-            if (currentOperandTextBox.Text == "0")
                 currentOperandTextBox.Text = "1";
-            else if (entryReset && String.Format("{0}", operationQueue.Peek()) == "equ")
-            {
-                system.reset();
-                currentOperandTextBox.Text = "1";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "1";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '1';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void twoButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "2";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
+                if (clear)
+                    erase("clear");
+
                 currentOperandTextBox.Text = "2";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "2";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '2';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void threeButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "3";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
+                if (clear)
+                    erase("clear");
+
                 currentOperandTextBox.Text = "3";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "3";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '3';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void fourButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "4";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
+                if (clear)
+                    erase("clear");
+
                 currentOperandTextBox.Text = "4";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "4";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '4';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void fiveButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "5";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
+                if (clear)
+                    erase("clear");
+
                 currentOperandTextBox.Text = "5";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "5";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '5';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void sixButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "6";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
+                if (clear)
+                    erase("clear");
+
                 currentOperandTextBox.Text = "6";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "6";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '6';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void sevenButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "7";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
+                if (clear)
+                    erase("clear");
+
                 currentOperandTextBox.Text = "7";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "7";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '7';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void eightButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "8";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
+                if (clear)
+                    erase("clear");
+
                 currentOperandTextBox.Text = "8";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "8";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '8';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void nineButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "9";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
+                if (clear)
+                    erase("clear");
+
                 currentOperandTextBox.Text = "9";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
+
+                reset_entry = false;
             }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "9";
-                entryReset = false;
-            }
-            else if (currentOperandTextBox.TextLength <= maxLength)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
                 currentOperandTextBox.Text += '9';
 
-            if (operatorSet)
-                operationStart = true;
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void decimalButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text.IndexOf('.') == -1 && !entryReset)
-                currentOperandTextBox.Text += '.';
-            else if (currentOperandTextBox.Text == "0")
-                currentOperandTextBox.Text = "0.";
-            else if (entryReset && specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+            if (reset_entry || currentOperandTextBox.Text == "0")
             {
-                system.reset();
-                currentOperandTextBox.Text = "0.";
-                secondOperandTextBox.Text = "";
-                entryReset = false;
-            }
-            else if (entryReset)
-            {
-                currentOperandTextBox.Text = "0.";
-                entryReset = false;
-            }
+                if (clear)
+                    secondOperandTextBox.Text = "";
 
-            if (operatorSet)
-                operationStart = true;
+                if (currentOperandTextBox.Text.IndexOf('.') == -1)
+                    currentOperandTextBox.Text = "0.";
+
+                reset_entry = false;
+                clear = false;
+            }
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH && currentOperandTextBox.Text.IndexOf('.') == -1)
+                currentOperandTextBox.Text += '.';
+
+            if (operator_is_set)
+                start_operation = true;
         }
 
         private void backSpaceButton_Click(object sender, EventArgs e)
         {
-            if (currentOperandTextBox.Text.Length > 1)
+            char[] current_stream = currentOperandTextBox.Text.ToCharArray();
+
+            if (current_stream.Length > 1)
             {
-                char[] content = currentOperandTextBox.Text.ToCharArray();
-                content[currentOperandTextBox.Text.Length - 1] = '\0';
-                currentOperandTextBox.Text = String.Join("", content);
+                current_stream[current_stream.Length - 1] = '\0';
             }
-            else if (currentOperandTextBox.TextLength == 1 && currentOperandTextBox.Text[0] != '0')
-                currentOperandTextBox.Text = "0";
+            else
+            {
+                if (current_stream[0] != '0')
+                    current_stream[0] = '0';
+            }
+
+            currentOperandTextBox.Text = String.Join("", current_stream);
         }
 
         private void additionButton_Click(object sender, EventArgs e)
         {
-
-            if (operationQueue.Count > 0)
+            if (operator_is_set && operations.Peek()?.ToString() != "equ")
             {
-                if (specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+                if (start_operation)
                 {
-                    operationQueue.Dequeue();
-                    operationStart = false;
-                }
-            }
-
-            if (operationStart)
-            {
-                if (operationQueue.Count > 0)
-                {
-                    if (!specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
-                    {
-                        system.B = decimal.Parse(currentOperandTextBox.Text);
-                    }
-                    system.calculate(String.Format("{0}", operationQueue.Dequeue()));
-                    secondOperandTextBox.Text = $"{system.C} + ";
-                    currentOperandTextBox.Text = system.C.ToString();
-                    operationQueue.Enqueue("add");
-
-                    entryReset = true;
+                    second_term = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Operation(operations.Dequeue()?.ToString());
+                    start_operation = false;
+                    operations.Enqueue("add");
                 }
             }
             else
             {
-                operatorSet = true;
-                entryReset = true;
+                if (operations.Count > 0)
+                    operations.Dequeue();
 
-                if (operationQueue.Count > 0)
-                {
-                    if (String.Format("{0}", operationQueue.Peek()) != "add")
-                    {
-                        operationQueue.Dequeue();
-                        operationQueue.Enqueue("add");
-                    }
-                }
-                else
-                {
-                    operationQueue.Enqueue("add");
-                }
-
-                system.A = decimal.Parse(currentOperandTextBox.Text);
-                secondOperandTextBox.Text = $"{system.A} + ";
+                clear = false;
+                operator_is_set = true;
+                operations.Enqueue("add");
             }
+
+            first_term = double.Parse(currentOperandTextBox.Text);;
+            secondOperandTextBox.Text = String.Format("{0} + ", first_term);
+            reset_entry = true;
         }
 
         private void differenceButton_Click(object sender, EventArgs e)
         {
-
-            if (operationQueue.Count > 0)
+            if (operator_is_set && operations.Peek()?.ToString() != "equ")
             {
-                if (specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+                if (start_operation)
                 {
-                    operationQueue.Dequeue();
-                    operationStart = false;
-                }
-            }
-
-            if (operationStart)
-            {
-                if (operationQueue.Count > 0)
-                {
-                    if (!specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
-                    {
-                        system.B = decimal.Parse(currentOperandTextBox.Text);
-                    }
-                    system.calculate(String.Format("{0}", operationQueue.Dequeue()));
-                    secondOperandTextBox.Text = $"{system.C} - ";
-                    currentOperandTextBox.Text = system.C.ToString();
-                    operationQueue.Enqueue("sub");
-
-                    entryReset = true;
+                    second_term = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Operation(operations.Dequeue()?.ToString());
+                    start_operation = false;
+                    operations.Enqueue("sub");
                 }
             }
             else
             {
-                operatorSet = true;
-                entryReset = true;
+                if (operations.Count > 0)
+                    operations.Dequeue();
 
-                if (operationQueue.Count > 0)
-                {
-                    if (String.Format("{0}", operationQueue.Peek()) != "sub")
-                    {
-                        operationQueue.Dequeue();
-                        operationQueue.Enqueue("sub");
-                    }
-                }
-                else
-                {
-                    operationQueue.Enqueue("sub");
-                }
-
-                system.A = decimal.Parse(currentOperandTextBox.Text);
-                secondOperandTextBox.Text = $"{system.A} - ";
+                clear = false;
+                operator_is_set = true;
+                operations.Enqueue("sub");
             }
+
+            first_term = double.Parse(currentOperandTextBox.Text); ;
+            secondOperandTextBox.Text = String.Format("{0} - ", first_term);
+            reset_entry = true;
         }
 
         private void multiplicationButton_Click(object sender, EventArgs e)
         {
-
-            if (operationQueue.Count > 0)
+            if (operator_is_set && operations.Peek()?.ToString() != "equ")
             {
-                if (specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+                if (start_operation)
                 {
-                    operationQueue.Dequeue();
-                    operationStart = false;
-                }
-            }
-
-            if (operationStart)
-            {
-                if (operationQueue.Count > 0)
-                {
-                    if (!specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
-                    {
-                        system.B = decimal.Parse(currentOperandTextBox.Text);
-                    }
-                    system.B = decimal.Parse(currentOperandTextBox.Text);
-                    system.calculate(String.Format("{0}", operationQueue.Dequeue()));
-                    secondOperandTextBox.Text = $"{system.C} × ";
-                    currentOperandTextBox.Text = system.C.ToString();
-                    operationQueue.Enqueue("mul");
-
-                    entryReset = true;
+                    second_term = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Operation(operations.Dequeue()?.ToString());
+                    start_operation = false;
+                    operations.Enqueue("mul");
                 }
             }
             else
             {
-                operatorSet = true;
-                entryReset = true;
+                if (operations.Count > 0)
+                    operations.Dequeue();
 
-                if (operationQueue.Count > 0)
-                {
-                    if (String.Format("{0}", operationQueue.Peek()) != "mul")
-                    {
-                        operationQueue.Dequeue();
-                        operationQueue.Enqueue("mul");
-                    }
-                }
-                else
-                {
-                    operationQueue.Enqueue("mul");
-                }
-
-                system.A = decimal.Parse(currentOperandTextBox.Text);
-                secondOperandTextBox.Text = $"{system.A} × ";
+                clear = false;
+                operator_is_set = true;
+                operations.Enqueue("mul");
             }
+
+            first_term = double.Parse(currentOperandTextBox.Text); ;
+            secondOperandTextBox.Text = String.Format("{0} × ", first_term);
+            reset_entry = true;
         }
 
         private void divisionButton_Click(object sender, EventArgs e)
         {
-
-            if (operationQueue.Count > 0)
+            if (operator_is_set && operations.Peek()?.ToString() != "equ")
             {
-                if (specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
+                if (start_operation)
                 {
-                    operationQueue.Dequeue();
-                    operationStart = false;
-                }
-            }
-
-            if (operationStart)
-            {
-                if (operationQueue.Count > 0)
-                {
-                    if (!specialFunctions.Contains(String.Format("{0}", operationQueue.Peek())))
-                    {
-                        system.B = decimal.Parse(currentOperandTextBox.Text);
-                    }
-                    system.B = decimal.Parse(currentOperandTextBox.Text);
-                    system.calculate(String.Format("{0}", operationQueue.Dequeue()));
-                    secondOperandTextBox.Text = $"{system.C} ÷ ";
-                    currentOperandTextBox.Text = system.C.ToString();
-                    operationQueue.Enqueue("div");
-
-                    entryReset = true;
+                    second_term = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Operation(operations.Dequeue()?.ToString());
+                    start_operation = false;
+                    operations.Enqueue("div");
                 }
             }
             else
             {
-                operatorSet = true;
-                entryReset = true;
+                if (operations.Count > 0)
+                    operations.Dequeue();
 
-                if (operationQueue.Count > 0)
-                {
-                    if (String.Format("{0}", operationQueue.Peek()) != "div")
-                    {
-                        operationQueue.Dequeue();
-                        operationQueue.Enqueue("div");
-                    }
-                }
-                else
-                {
-                    operationQueue.Enqueue("div");
-                }
-
-                system.A = decimal.Parse(currentOperandTextBox.Text);
-                secondOperandTextBox.Text = $"{system.A} ÷ ";
+                clear = false;
+                operator_is_set = true;
+                operations.Enqueue("div");
             }
+
+            first_term = double.Parse(currentOperandTextBox.Text); ;
+            secondOperandTextBox.Text = String.Format("{0} ÷ ", first_term);
+            reset_entry = true;
         }
 
         private void equalsButton_Click(object sender, EventArgs e)
-        {
-
-            if (operationQueue.Count > 0)
+        {   
+            if (operations.Count > 0)
             {
-
-                if (String.Format("{0}", operationQueue.Peek()) != "equ")
+                if (String.Format("{0}", operations.Peek()) != "equ")
                 {
-                    currentOperation = String.Format("{0}", operationQueue.Dequeue());
+                    current_operation = String.Format("{0}", operations.Dequeue());
+                    second_term = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Operation(current_operation);
+                    start_operation = false;
+                    operator_is_set = false;
+                    operations.Clear();
+                    operations.Enqueue("equ");
 
-                    if (currentOperation == "x2")
-                    {
-                        secondOperandTextBox.Text = String.Format("({0})² = ", system.B);
-                    }
-                    else if (currentOperation == "sqr")
-                    {
-                        secondOperandTextBox.Text = String.Format("√({0}) = ", system.B);
-                    }
-                    else
-                    {
-                        system.B = decimal.Parse(currentOperandTextBox.Text);
-                        system.calculate(currentOperation);
-                        secondOperandTextBox.Text = String.Format("{0} {1} {2} = ", system.A, setOperator(), system.B);
-                    }
-                    operationQueue.Enqueue("equ");
-                }
+                    clear = true;
+                }   
                 else
                 {
-                    system.A = system.C;
-                    system.calculate(currentOperation);
+                    first_term = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Operation(current_operation);
                 }
 
-
-                currentOperandTextBox.Text = $"{system.C}";
-                entryReset = true;
+                secondOperandTextBox.Text = String.Format("{0} {1} {2} = ", first_term, operator_symbol ,second_term);
             }
+            else
+                secondOperandTextBox.Text = String.Format("{0} = ", currentOperandTextBox.Text);
+
+            reset_entry = true;
         }
 
         private void percentageButton_Click(object sender, EventArgs e)
         {
-
-            if ("mul|div".Contains(String.Format("{0}", operationQueue.Peek())))
+            if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
             {
-                system.B = system.A;
-                system.A = decimal.Parse(currentOperandTextBox.Text);
-                system.calculate("div");
-                currentOperandTextBox.Text = system.C.ToString();
-                secondOperandTextBox.Text = String.Format("{0} {1} {2}", system.B, operationQueue.Dequeue(), system.C);
-            }
-            else if ("add|sub".Contains(String.Format("{0}", operationQueue.Peek())))
-            {
-                system.B = decimal.Parse(currentOperandTextBox.Text) / 100;
-                system.calculate("mul");
-                currentOperandTextBox.Text = system.C.ToString();
-                secondOperandTextBox.Text = String.Format("{0} {1} {2}", system.B, operationQueue.Dequeue(), system.C);
-            }
+                string ? mode = operations.Dequeue()?.ToString();
 
-            entryReset = true;
-            operationQueue.Enqueue("per");
+                second_term = double.Parse(currentOperandTextBox.Text) / 100;
+
+                if (mode == "add" || mode == "sub")
+                {
+                    second_term = double.Parse(Operation("mul"));
+                    currentOperandTextBox.Text = mode == "add" ? Operation("add") : Operation("sub");
+                }
+                else if (mode == "mul" || mode == "div")
+                    currentOperandTextBox.Text = mode == "mul" ? Operation("mul") : Operation("div");
+
+                secondOperandTextBox.Text = String.Format("{0} {1} {2} = ", first_term, operator_symbol, second_term);
+
+                operator_is_set = false;
+                reset_entry = true;
+                clear = true;
+            }
         }
 
         private void oneOverXButton_Click(object sender, EventArgs e)
         {
+            second_term = double.Parse(currentOperandTextBox.Text);
 
-            currentOperation = operationQueue.Count > 0 ? String.Format("{0}", operationQueue.Peek()) : "N/A";
+            if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
+                secondOperandTextBox.Text += String.Format("1 / ({0})", second_term);
+            else
+                secondOperandTextBox.Text = String.Format("1 / ({0})", second_term);
 
-            try
-            {
-                if (operationQueue.Count > 0 && !specialFunctions.Contains(currentOperation))
-                {
-                    system.B = decimal.Parse(currentOperandTextBox.Text);
-                    system.calculate("1/x");
-                    currentOperandTextBox.Text = system.C.ToString();
-                    secondOperandTextBox.Text = String.Format("{0} + 1 / ({1})", system.A, system.B);
-                }
-                else
-                {
-                    system.A = 1;
-                    system.B = decimal.Parse(currentOperandTextBox.Text);
-                    system.calculate("1/x");
-                    currentOperandTextBox.Text = system.C.ToString();
-                    secondOperandTextBox.Text = String.Format("{0} / ({1})", system.A, system.B);
-                }
-            }
-            catch (Exception)
-            {
-                currentOperandTextBox.Text = "Err";
-            }
+            currentOperandTextBox.Text = Operation("inv");
 
-            operationStart = true;
-            entryReset = true;
-            operationQueue.Enqueue("1/x");
+            reset_entry = true;
         }
 
         private void squareRootButton_Click(object sender, EventArgs e)
         {
+            second_term = double.Parse(currentOperandTextBox.Text);
 
-            currentOperation = operationQueue.Count > 0 ? String.Format("{0}", operationQueue.Peek()) : "N/A";
-
-            if (operationQueue.Count > 0 && !specialFunctions.Contains(currentOperation))
-            {
-                system.B = decimal.Parse(currentOperandTextBox.Text);
-                system.calculate("sqr");
-                currentOperandTextBox.Text = system.C.ToString();
-                secondOperandTextBox.Text = String.Format("{0} + √({1})", system.A, system.B);
-            }
+            if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
+                secondOperandTextBox.Text += String.Format("√({0})", second_term);
             else
-            {
-                system.B = decimal.Parse(currentOperandTextBox.Text);
-                system.calculate("sqr");
-                currentOperandTextBox.Text = system.C.ToString();
-                secondOperandTextBox.Text = String.Format("√({0})", system.B);
-            }
+                secondOperandTextBox.Text = String.Format("√({0})", second_term);
 
-            operationStart = true;
-            entryReset = true;
-            operationQueue.Enqueue("sqr");
+            currentOperandTextBox.Text = Operation("sqrt");
+
+            reset_entry = true;
         }
 
         private void squaredButton_Click(object sender, EventArgs e)
         {
-            currentOperation = operationQueue.Count > 0 ? String.Format("{0}", operationQueue.Peek()) : "N/A";
+            second_term = double.Parse(currentOperandTextBox.Text);
 
-            if (operationQueue.Count > 0 && !specialFunctions.Contains(currentOperation))
-            {
-                system.B = decimal.Parse(currentOperandTextBox.Text);
-                system.calculate("x2");
-                currentOperandTextBox.Text = system.C.ToString();
-                secondOperandTextBox.Text = String.Format("{0} + ({1})²", system.A, system.B);
-            }
+            if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
+                secondOperandTextBox.Text += String.Format("({0})²", second_term);
             else
-            {
-                system.B = decimal.Parse(currentOperandTextBox.Text);
-                system.calculate("x2");
-                currentOperandTextBox.Text = system.C.ToString();
-                secondOperandTextBox.Text = String.Format("({0})²", system.B);
-            }
+                secondOperandTextBox.Text = String.Format("({0})²", second_term);
 
-            operationStart = true;
-            entryReset = true;
-            operationQueue.Enqueue("x2");
+            currentOperandTextBox.Text = Operation("sqrd");
+
+            reset_entry = true;
         }
 
         private void positveNegativeButton_Click(object sender, EventArgs e)
         {
-            decimal value = decimal.Parse(currentOperandTextBox.Text) * -1;
-            currentOperandTextBox.Text = $"{value}";
+            currentOperandTextBox.Text = Arithmetic.mul(double.Parse(currentOperandTextBox.Text), -1).ToString();
         }
 
         private void currentOperandTextBox_TextChanged(object sender, EventArgs e)
         {
-            string content = currentOperandTextBox.Text;
-            char format = 'N';
-
-            try
+            // Adjust the Font size if the current text field have a size of 13 or greater
+            if (currentOperandTextBox.Text.Length > 13)
             {
-                if (content.IndexOf('.') != -1 && decimal.Parse(content.Substring(content.IndexOf('.'))) != 0)
-                {
-                    if (content.Length > content.IndexOf('.') + 1)
-                    {
-                        int decimalPlaces = content.Substring(content.IndexOf('.') + 1).Length;
-
-                        if (content.IndexOf('.') > maxLength)
-                        {
-                            format = 'E';
-                        }
-
-                        for (int i = decimalPlaces; i >= 0; i--)
-                        {
-                            if (content.IndexOf('.') + i <= maxLength)
-                            {
-                                decimalPlaces = i; break;
-                            }
-                        }
-
-                        currentOperandTextBox.Text = decimal.Parse(content).ToString($"{format}{decimalPlaces}");
-                    }
-                }
-                else
-                {
-                    if (content.Length > maxLength)
-                    {
-                        format = 'E';
-                    }
-
-                    currentOperandTextBox.Text = decimal.Parse(content).ToString($"{format}0");
-                }
+                float font_size = 27.75F * (13F / currentOperandTextBox.Text.Length);
+                currentOperandTextBox.Font = new Font("Consolas", font_size, FontStyle.Bold, GraphicsUnit.Point);
             }
-            catch (Exception) { }
+            else
+            {
+                currentOperandTextBox.Font = new Font("Consolas", 27.75F, FontStyle.Bold, GraphicsUnit.Point);
+            }
         }
 
+        private void secondOperandTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // Adjust the Font size if the current text field have a size of 18 or greater
+            if (secondOperandTextBox.Text.Length > 18)
+            {
+                float font_size = 21.75F * (18F / secondOperandTextBox.Text.Length);
+                secondOperandTextBox.Font = new Font("Consolas", font_size, FontStyle.Bold, GraphicsUnit.Point);
+            }
+            else
+            {
+                secondOperandTextBox.Font = new Font("Consolas", 21.75F, FontStyle.Bold, GraphicsUnit.Point);
+            }
+        }
         private void acButton_Click(object sender, EventArgs e)
         {
+            first_term = 0;
+            second_term = 0;
+            reset_entry = true;
+            operator_is_set = false;
+            start_operation = false;
+            operations.Clear();
             currentOperandTextBox.Text = "0";
             secondOperandTextBox.Text = "";
-            currentOperation = "";
-            operationStart = false;
-            operatorSet = false;
-            entryReset = false;
-            system.reset();
-            operationQueue.Clear();
         }
 
         private void ceButton_Click(object sender, EventArgs e)
         {
+            reset_entry = true;
             currentOperandTextBox.Text = "0";
         }
 
         private void mPositiveButton_Click(object sender, EventArgs e)
         {
-            memory += decimal.Parse(currentOperandTextBox.Text);
+            first_term = memory;
+            second_term = double.Parse(currentOperandTextBox.Text);
+            memory = double.Parse(Operation("add"));
+            secondOperandTextBox.Text = String.Format("Memory = {0}", memory);
+
+            clear = true;
+            reset_entry = true;
         }
 
         private void mNegativeButton_Click(object sender, EventArgs e)
         {
-            memory -= decimal.Parse(currentOperandTextBox.Text);
+            first_term = memory;
+            second_term = double.Parse(currentOperandTextBox.Text);
+            memory = double.Parse(Operation("sub"));
+            secondOperandTextBox.Text = String.Format("Memory = {0}", memory);
+
+            clear = true;
+            reset_entry = true;
         }
 
         private void mcButton_Click(object sender, EventArgs e)
         {
             memory = 0;
+            secondOperandTextBox.Text = String.Format("Memory = {0}", memory);
+
+            clear = true;
+            reset_entry = true;
         }
 
         private void mrButton_Click(object sender, EventArgs e)
         {
-            currentOperandTextBox.Text = memory.ToString();
+            if (memory != 0)
+            {
+                secondOperandTextBox.Text = "Memory = ";
+                currentOperandTextBox.Text = memory.ToString();
+            }
         }
 
-        private char setOperator()
+        private string Operation(string ? set)
         {
-            if (currentOperation == "add")
-                return '+';
-            else if (currentOperation == "sub")
-                return '-';
-            else if (currentOperation == "mul")
-                return '×';
-            else if (currentOperation == "div")
-                return '÷';
-            else if (currentOperation == "1/x")
-                return '/';
-            else if (currentOperation == "sqr")
-                return '√';
-            else
-                return '\0';
+            string result = "";
+
+            switch (set)
+            {
+                case "add":
+                    operator_symbol = '+';
+                    return Arithmetic.add(first_term, second_term).ToString();
+                case "sub":
+                    operator_symbol = '-';
+                    return Arithmetic.sub(first_term, second_term).ToString();
+                case "mul":
+                    operator_symbol = '×';
+                    return Arithmetic.mul(first_term, second_term).ToString();
+
+                case "sqrt":
+                    return Arithmetic.sqrt(second_term).ToString();
+
+                case "sqrd":
+                    return Arithmetic.sqrd(second_term).ToString();
+
+                case "div":
+
+                    operator_symbol = '÷';
+
+                    result = Arithmetic.div(first_term, second_term).ToString();
+
+                    if (result != "∞")
+                        return result;
+                    else
+                    {
+                        clear = true;
+                        return "Can't Divide by Zero!";
+                    }
+
+                case "inv":
+
+                    operator_symbol = '÷';
+
+                    result = Arithmetic.div(1, second_term).ToString();
+
+                    if (result != "∞")
+                        return result;
+                    else
+                    {
+                        clear = true;
+                        return "Can't Divide by Zero!";
+                    }
+
+                default:
+                    return "0";
+            }
+        }
+
+        private void erase(string ? set)
+        {
+            switch (set)
+            {
+                case "clear":
+                    secondOperandTextBox.Text = "";
+                    clear = false;
+                    return;
+                case "reset":
+                    currentOperandTextBox.Text = "0";
+                    reset_entry = false;
+                    return;
+
+                default:
+                    return;
+            }
         }
     }
 }
