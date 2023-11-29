@@ -53,7 +53,7 @@ namespace SimpleCalculator
             sevenButton = new Button();
             squaredButton = new Button();
             squareRootButton = new Button();
-            positveNegativeButton = new Button();
+            positiveNegativeButton = new Button();
             ceButton = new Button();
             acButton = new Button();
             backSpaceButton = new Button();
@@ -100,7 +100,7 @@ namespace SimpleCalculator
             controlPanel.Controls.Add(sevenButton);
             controlPanel.Controls.Add(squaredButton);
             controlPanel.Controls.Add(squareRootButton);
-            controlPanel.Controls.Add(positveNegativeButton);
+            controlPanel.Controls.Add(positiveNegativeButton);
             controlPanel.Controls.Add(ceButton);
             controlPanel.Controls.Add(acButton);
             controlPanel.Controls.Add(backSpaceButton);
@@ -393,19 +393,19 @@ namespace SimpleCalculator
             squareRootButton.UseVisualStyleBackColor = false;
             squareRootButton.Click += squareRootButton_Click;
             // 
-            // positveNegativeButton
+            // positiveNegativeButton
             // 
-            positveNegativeButton.BackColor = SystemColors.ActiveBorder;
-            positveNegativeButton.FlatAppearance.BorderSize = 0;
-            positveNegativeButton.FlatStyle = FlatStyle.Popup;
-            positveNegativeButton.Font = new Font("Consolas", 24F, FontStyle.Bold, GraphicsUnit.Point);
-            positveNegativeButton.Location = new Point(119, 61);
-            positveNegativeButton.Name = "positveNegativeButton";
-            positveNegativeButton.Size = new Size(52, 50);
-            positveNegativeButton.TabIndex = 16;
-            positveNegativeButton.Text = "±";
-            positveNegativeButton.UseVisualStyleBackColor = false;
-            positveNegativeButton.Click += positveNegativeButton_Click;
+            positiveNegativeButton.BackColor = SystemColors.ActiveBorder;
+            positiveNegativeButton.FlatAppearance.BorderSize = 0;
+            positiveNegativeButton.FlatStyle = FlatStyle.Popup;
+            positiveNegativeButton.Font = new Font("Consolas", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            positiveNegativeButton.Location = new Point(119, 61);
+            positiveNegativeButton.Name = "positiveNegativeButton";
+            positiveNegativeButton.Size = new Size(52, 50);
+            positiveNegativeButton.TabIndex = 16;
+            positiveNegativeButton.Text = "±";
+            positiveNegativeButton.UseVisualStyleBackColor = false;
+            positiveNegativeButton.Click += positveNegativeButton_Click;
             // 
             // ceButton
             // 
@@ -542,7 +542,7 @@ namespace SimpleCalculator
             secondOperandTextBox.Enabled = false;
             secondOperandTextBox.Font = new Font("Consolas", 21.75F, FontStyle.Regular, GraphicsUnit.Point);
             secondOperandTextBox.Location = new Point(3, 3);
-            secondOperandTextBox.MaxLength = 14;
+            secondOperandTextBox.MaxLength = 20;
             secondOperandTextBox.Name = "secondOperandTextBox";
             secondOperandTextBox.ReadOnly = true;
             secondOperandTextBox.Size = new Size(283, 34);
@@ -584,7 +584,7 @@ namespace SimpleCalculator
         private Button mNegativeButton;
         private Button squaredButton;
         private Button squareRootButton;
-        private Button positveNegativeButton;
+        private Button positiveNegativeButton;
         private Button ceButton;
         private Button acButton;
         private Button nineButton;

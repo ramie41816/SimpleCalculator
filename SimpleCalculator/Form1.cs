@@ -1,19 +1,11 @@
-﻿using Microsoft.VisualBasic;
-using System.Collections;
-using System.Configuration;
-using System.Drawing.Design;
-using System.Drawing.Text;
-using System.Globalization;
-using System.Linq.Expressions;
-using System.Net.NetworkInformation;
-using System.Security.Policy;
+﻿using System.Collections;
 
 namespace SimpleCalculator
 {
     public partial class MainForm : Form
     {
 
-        private readonly byte MAX_LENGTH = 20;
+        private readonly byte MAX_LENGTH = 19;
         private double memory = 0;
 
         private bool operator_is_set = false;
@@ -43,14 +35,17 @@ namespace SimpleCalculator
             if (reset_entry)
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "0";
                 reset_entry = false;
             }
             else if (currentOperandTextBox.Text.Length < MAX_LENGTH && currentOperandTextBox.Text != "0")
-                 currentOperandTextBox.Text += '0';
-                
+                currentOperandTextBox.Text += '0';
+
             if (operator_is_set)
                 start_operation = true;
         }
@@ -60,7 +55,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "1";
 
@@ -78,7 +76,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "2";
 
@@ -96,7 +97,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "3";
 
@@ -114,7 +118,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "4";
 
@@ -132,7 +139,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "5";
 
@@ -150,7 +160,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "6";
 
@@ -168,7 +181,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "7";
 
@@ -186,7 +202,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "8";
 
@@ -204,7 +223,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    erase("clear");
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 currentOperandTextBox.Text = "9";
 
@@ -222,7 +244,10 @@ namespace SimpleCalculator
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
                 if (clear)
-                    secondOperandTextBox.Text = "";
+                {
+                    Function("clear");
+                    Function("enable");
+                }
 
                 if (currentOperandTextBox.Text.IndexOf('.') == -1)
                     currentOperandTextBox.Text = "0.";
@@ -251,7 +276,7 @@ namespace SimpleCalculator
                     current_stream[0] = '0';
             }
 
-            currentOperandTextBox.Text = String.Join("", current_stream);
+            currentOperandTextBox.Text = string.Join("", current_stream);
         }
 
         private void additionButton_Click(object sender, EventArgs e)
@@ -260,8 +285,8 @@ namespace SimpleCalculator
             {
                 if (start_operation)
                 {
-                    second_term = double.Parse(currentOperandTextBox.Text);
-                    currentOperandTextBox.Text = Operation(operations.Dequeue()?.ToString());
+                    Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Arithmetic.Operation(operations.Dequeue()?.ToString());
                     start_operation = false;
                     operations.Enqueue("add");
                 }
@@ -273,11 +298,12 @@ namespace SimpleCalculator
 
                 clear = false;
                 operator_is_set = true;
+                Arithmetic.sign = '+';
                 operations.Enqueue("add");
             }
 
-            first_term = double.Parse(currentOperandTextBox.Text);;
-            secondOperandTextBox.Text = String.Format("{0} + ", first_term);
+            Arithmetic.x = double.Parse(currentOperandTextBox.Text);
+            secondOperandTextBox.Text = FormatString(string.Format("{0} + ", Arithmetic.x));
             reset_entry = true;
         }
 
@@ -287,8 +313,8 @@ namespace SimpleCalculator
             {
                 if (start_operation)
                 {
-                    second_term = double.Parse(currentOperandTextBox.Text);
-                    currentOperandTextBox.Text = Operation(operations.Dequeue()?.ToString());
+                    Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Arithmetic.Operation(operations.Dequeue()?.ToString());
                     start_operation = false;
                     operations.Enqueue("sub");
                 }
@@ -300,11 +326,12 @@ namespace SimpleCalculator
 
                 clear = false;
                 operator_is_set = true;
+                Arithmetic.sign = '-';
                 operations.Enqueue("sub");
             }
 
-            first_term = double.Parse(currentOperandTextBox.Text); ;
-            secondOperandTextBox.Text = String.Format("{0} - ", first_term);
+            Arithmetic.x = double.Parse(currentOperandTextBox.Text);
+            secondOperandTextBox.Text = FormatString(string.Format("{0} - ", Arithmetic.x));
             reset_entry = true;
         }
 
@@ -314,8 +341,8 @@ namespace SimpleCalculator
             {
                 if (start_operation)
                 {
-                    second_term = double.Parse(currentOperandTextBox.Text);
-                    currentOperandTextBox.Text = Operation(operations.Dequeue()?.ToString());
+                    Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Arithmetic.Operation(operations.Dequeue()?.ToString());
                     start_operation = false;
                     operations.Enqueue("mul");
                 }
@@ -327,11 +354,12 @@ namespace SimpleCalculator
 
                 clear = false;
                 operator_is_set = true;
+                Arithmetic.sign = '×';
                 operations.Enqueue("mul");
             }
 
-            first_term = double.Parse(currentOperandTextBox.Text); ;
-            secondOperandTextBox.Text = String.Format("{0} × ", first_term);
+            Arithmetic.x = double.Parse(currentOperandTextBox.Text);
+            secondOperandTextBox.Text = FormatString(string.Format("{0} × ", Arithmetic.x));
             reset_entry = true;
         }
 
@@ -341,8 +369,8 @@ namespace SimpleCalculator
             {
                 if (start_operation)
                 {
-                    second_term = double.Parse(currentOperandTextBox.Text);
-                    currentOperandTextBox.Text = Operation(operations.Dequeue()?.ToString());
+                    Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Arithmetic.Operation(operations.Dequeue()?.ToString());
                     start_operation = false;
                     operations.Enqueue("div");
                 }
@@ -354,40 +382,40 @@ namespace SimpleCalculator
 
                 clear = false;
                 operator_is_set = true;
+                Arithmetic.sign = '÷';
                 operations.Enqueue("div");
             }
 
-            first_term = double.Parse(currentOperandTextBox.Text); ;
-            secondOperandTextBox.Text = String.Format("{0} ÷ ", first_term);
+            Arithmetic.x = double.Parse(currentOperandTextBox.Text);
+            secondOperandTextBox.Text = FormatString(string.Format("{0} ÷ ", Arithmetic.x));
             reset_entry = true;
         }
 
         private void equalsButton_Click(object sender, EventArgs e)
-        {   
+        {
             if (operations.Count > 0)
             {
-                if (String.Format("{0}", operations.Peek()) != "equ")
+                if (operations.Peek()?.ToString() != "equ")
                 {
-                    current_operation = String.Format("{0}", operations.Dequeue());
-                    second_term = double.Parse(currentOperandTextBox.Text);
-                    currentOperandTextBox.Text = Operation(current_operation);
+                    current_operation = operations.Dequeue()?.ToString();
+                    Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Arithmetic.Operation(current_operation);
                     start_operation = false;
                     operator_is_set = false;
                     operations.Clear();
                     operations.Enqueue("equ");
-
                     clear = true;
-                }   
+                }
                 else
                 {
-                    first_term = double.Parse(currentOperandTextBox.Text);
-                    currentOperandTextBox.Text = Operation(current_operation);
+                    Arithmetic.x = double.Parse(currentOperandTextBox.Text);
+                    currentOperandTextBox.Text = Arithmetic.Operation(current_operation);
                 }
 
-                secondOperandTextBox.Text = String.Format("{0} {1} {2} = ", first_term, operator_symbol ,second_term);
+                secondOperandTextBox.Text = FormatString(string.Format("{0} {1} {2} = ", Arithmetic.x, Arithmetic.sign, Arithmetic.y));
             }
             else
-                secondOperandTextBox.Text = String.Format("{0} = ", currentOperandTextBox.Text);
+                secondOperandTextBox.Text = FormatString(string.Format("{0} = ", currentOperandTextBox.Text));
 
             reset_entry = true;
         }
@@ -396,19 +424,19 @@ namespace SimpleCalculator
         {
             if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
             {
-                string ? mode = operations.Dequeue()?.ToString();
+                string? mode = operations.Dequeue()?.ToString();
 
-                second_term = double.Parse(currentOperandTextBox.Text) / 100;
+                Arithmetic.y = double.Parse(currentOperandTextBox.Text) / 100;
 
                 if (mode == "add" || mode == "sub")
                 {
-                    second_term = double.Parse(Operation("mul"));
-                    currentOperandTextBox.Text = mode == "add" ? Operation("add") : Operation("sub");
+                    Arithmetic.y = double.Parse(Arithmetic.Operation("mul"));
+                    currentOperandTextBox.Text = Arithmetic.Operation(mode);
                 }
                 else if (mode == "mul" || mode == "div")
-                    currentOperandTextBox.Text = mode == "mul" ? Operation("mul") : Operation("div");
+                    currentOperandTextBox.Text = Arithmetic.Operation(mode);
 
-                secondOperandTextBox.Text = String.Format("{0} {1} {2} = ", first_term, operator_symbol, second_term);
+                secondOperandTextBox.Text = string.Format("{0} {1} {2} = ", Arithmetic.x, Arithmetic.sign, Arithmetic.y);
 
                 operator_is_set = false;
                 reset_entry = true;
@@ -418,53 +446,95 @@ namespace SimpleCalculator
 
         private void oneOverXButton_Click(object sender, EventArgs e)
         {
-            second_term = double.Parse(currentOperandTextBox.Text);
+            string value;
 
-            if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
-                secondOperandTextBox.Text += String.Format("1 / ({0})", second_term);
+            if (operations.Count > 0)
+            {
+                Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+                secondOperandTextBox.Text = FormatString($"{Arithmetic.x} {Arithmetic.sign} 1 / ({Arithmetic.y})");
+                value = (1 / Arithmetic.y).ToString();
+            }
             else
-                secondOperandTextBox.Text = String.Format("1 / ({0})", second_term);
+            {
+                Arithmetic.x = double.Parse(currentOperandTextBox.Text);
+                secondOperandTextBox.Text = FormatString($"1 / ({Arithmetic.x})");
+                value = (1 / Arithmetic.x).ToString();
+            }
 
-            currentOperandTextBox.Text = Operation("inv");
-
-            reset_entry = true;
+            if (value == "∞")
+            {
+                Function("disable");
+                currentOperandTextBox.Text = "Can't Divide by Zero";
+            }
+            else
+                currentOperandTextBox.Text = value;
         }
 
         private void squareRootButton_Click(object sender, EventArgs e)
         {
-            second_term = double.Parse(currentOperandTextBox.Text);
-
-            if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
-                secondOperandTextBox.Text += String.Format("√({0})", second_term);
+            if (operations.Count > 0)
+            {
+                Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+                secondOperandTextBox.Text = FormatString($"{Arithmetic.x} {Arithmetic.sign} √({Arithmetic.y})");
+                currentOperandTextBox.Text = Math.Sqrt(Arithmetic.y).ToString();
+            }
             else
-                secondOperandTextBox.Text = String.Format("√({0})", second_term);
-
-            currentOperandTextBox.Text = Operation("sqrt");
-
-            reset_entry = true;
+            {
+                Arithmetic.x = double.Parse(currentOperandTextBox.Text);
+                secondOperandTextBox.Text = FormatString($"√({Arithmetic.x})");
+                currentOperandTextBox.Text = Math.Sqrt(Arithmetic.x).ToString();
+            }
         }
 
         private void squaredButton_Click(object sender, EventArgs e)
         {
-            second_term = double.Parse(currentOperandTextBox.Text);
+            string value;
 
-            if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
-                secondOperandTextBox.Text += String.Format("({0})²", second_term);
+            if (operations.Count > 0)
+            {
+                Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+                secondOperandTextBox.Text = FormatString($"{Arithmetic.x} {Arithmetic.sign} ({Arithmetic.y})²");
+                value = Math.Pow(Arithmetic.y, 2).ToString();
+            }
             else
-                secondOperandTextBox.Text = String.Format("({0})²", second_term);
+            {
+                Arithmetic.x = double.Parse(currentOperandTextBox.Text);
+                secondOperandTextBox.Text = FormatString($"({Arithmetic.x})²");
+                value = Math.Pow(Arithmetic.x, 2).ToString();
+            }
 
-            currentOperandTextBox.Text = Operation("sqrd");
-
-            reset_entry = true;
+            if (value == "∞")
+            {
+                Function("disable");
+                currentOperandTextBox.Text = "Overflow";
+            }
+            else
+                currentOperandTextBox.Text = value;
         }
 
         private void positveNegativeButton_Click(object sender, EventArgs e)
         {
-            currentOperandTextBox.Text = Arithmetic.mul(double.Parse(currentOperandTextBox.Text), -1).ToString();
+            currentOperandTextBox.Text = currentOperandTextBox.Text != "0" ? (double.Parse(currentOperandTextBox.Text) * -1).ToString() : "0";
         }
 
         private void currentOperandTextBox_TextChanged(object sender, EventArgs e)
         {
+            string current_stream = currentOperandTextBox.Text;
+
+            if (double.TryParse(current_stream, out double value))
+            {
+                int decimal_place = current_stream.IndexOf('.') != -1 ? current_stream.Substring(current_stream.IndexOf('.') + 1).Length : -1;
+
+                if (decimal_place > 0 && current_stream.IndexOf('E') == -1)
+                    current_stream = double.Parse(current_stream).ToString($"N{decimal_place}");
+                else if (decimal_place > 0 && current_stream.IndexOf('E') != -1 || current_stream.Length > MAX_LENGTH)
+                    current_stream = double.Parse(current_stream).ToString($"E7");
+                else if (decimal_place == -1)
+                    current_stream = double.Parse(current_stream).ToString("N0");
+
+                currentOperandTextBox.Text = current_stream;
+            }
+
             // Adjust the Font size if the current text field have a size of 13 or greater
             if (currentOperandTextBox.Text.Length > 13)
             {
@@ -479,10 +549,9 @@ namespace SimpleCalculator
 
         private void secondOperandTextBox_TextChanged(object sender, EventArgs e)
         {
-            // Adjust the Font size if the current text field have a size of 18 or greater
-            if (secondOperandTextBox.Text.Length > 18)
+            if (secondOperandTextBox.Text.Length > 16)
             {
-                float font_size = 21.75F * (18F / secondOperandTextBox.Text.Length);
+                float font_size = 21.75F * (16F / secondOperandTextBox.Text.Length);
                 secondOperandTextBox.Font = new Font("Consolas", font_size, FontStyle.Bold, GraphicsUnit.Point);
             }
             else
@@ -490,8 +559,11 @@ namespace SimpleCalculator
                 secondOperandTextBox.Font = new Font("Consolas", 21.75F, FontStyle.Bold, GraphicsUnit.Point);
             }
         }
+
         private void acButton_Click(object sender, EventArgs e)
         {
+            Function("enable");
+            Function("clear");
             first_term = 0;
             second_term = 0;
             reset_entry = true;
@@ -499,21 +571,25 @@ namespace SimpleCalculator
             start_operation = false;
             operations.Clear();
             currentOperandTextBox.Text = "0";
-            secondOperandTextBox.Text = "";
         }
 
         private void ceButton_Click(object sender, EventArgs e)
         {
-            reset_entry = true;
-            currentOperandTextBox.Text = "0";
+            if (!clear)
+            {
+                reset_entry = true;
+                currentOperandTextBox.Text = "0";
+            }
+            else
+                acButton_Click(sender, e);
         }
 
         private void mPositiveButton_Click(object sender, EventArgs e)
         {
-            first_term = memory;
-            second_term = double.Parse(currentOperandTextBox.Text);
-            memory = double.Parse(Operation("add"));
-            secondOperandTextBox.Text = String.Format("Memory = {0}", memory);
+            Arithmetic.x = memory;
+            Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+            memory = double.Parse(Arithmetic.Operation("add"));
+            secondOperandTextBox.Text = string.Format("Memory = {0}", memory);
 
             clear = true;
             reset_entry = true;
@@ -521,10 +597,10 @@ namespace SimpleCalculator
 
         private void mNegativeButton_Click(object sender, EventArgs e)
         {
-            first_term = memory;
-            second_term = double.Parse(currentOperandTextBox.Text);
-            memory = double.Parse(Operation("sub"));
-            secondOperandTextBox.Text = String.Format("Memory = {0}", memory);
+            Arithmetic.x = memory;
+            Arithmetic.y = double.Parse(currentOperandTextBox.Text);
+            memory = double.Parse(Arithmetic.Operation("sub"));
+            secondOperandTextBox.Text = string.Format("Memory = {0}", memory);
 
             clear = true;
             reset_entry = true;
@@ -533,7 +609,7 @@ namespace SimpleCalculator
         private void mcButton_Click(object sender, EventArgs e)
         {
             memory = 0;
-            secondOperandTextBox.Text = String.Format("Memory = {0}", memory);
+            secondOperandTextBox.Text = string.Format("Memory = {0}", memory);
 
             clear = true;
             reset_entry = true;
@@ -548,74 +624,71 @@ namespace SimpleCalculator
             }
         }
 
-        private string Operation(string ? set)
+        private string FormatString(string args)
         {
-            string result = "";
+            char[] delimiter = {'+', '-', '×', '÷', '='};
+            string[] stream = args.Trim().Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
 
-            switch (set)
+            if (stream.Length == 1 && args.Length > 18)
             {
-                case "add":
-                    operator_symbol = '+';
-                    return Arithmetic.add(first_term, second_term).ToString();
-                case "sub":
-                    operator_symbol = '-';
-                    return Arithmetic.sub(first_term, second_term).ToString();
-                case "mul":
-                    operator_symbol = '×';
-                    return Arithmetic.mul(first_term, second_term).ToString();
-
-                case "sqrt":
-                    return Arithmetic.sqrt(second_term).ToString();
-
-                case "sqrd":
-                    return Arithmetic.sqrd(second_term).ToString();
-
-                case "div":
-
-                    operator_symbol = '÷';
-
-                    result = Arithmetic.div(first_term, second_term).ToString();
-
-                    if (result != "∞")
-                        return result;
-                    else
-                    {
-                        clear = true;
-                        return "Can't Divide by Zero!";
-                    }
-
-                case "inv":
-
-                    operator_symbol = '÷';
-
-                    result = Arithmetic.div(1, second_term).ToString();
-
-                    if (result != "∞")
-                        return result;
-                    else
-                    {
-                        clear = true;
-                        return "Can't Divide by Zero!";
-                    }
-
-                default:
-                    return "0";
+                return args.Replace(Arithmetic.x.ToString(), Arithmetic.x.ToString("E7"));
             }
+            else if (stream.Length > 1 && args.Length > 18)
+            {
+                if (Arithmetic.x.ToString().Length > 7 && Arithmetic.y.ToString().Length <= 7)
+                    return args.Replace(Arithmetic.x.ToString(), Arithmetic.x.ToString($"E4"));
+                else if (Arithmetic.y.ToString().Length > 7 && Arithmetic.x.ToString().Length <= 7)
+                    return args.Replace(Arithmetic.y.ToString(), Arithmetic.y.ToString($"E4"));
+                else
+                    return args.Replace(Arithmetic.x.ToString(), Arithmetic.x.ToString("E2"))
+                               .Replace(Arithmetic.y.ToString(), Arithmetic.y.ToString("E2"));
+            }
+            else
+                return args;
         }
 
-        private void erase(string ? set)
+        private void Function(string ? set)
         {
             switch (set)
             {
                 case "clear":
                     secondOperandTextBox.Text = "";
-                    clear = false;
+                    clear = true;
                     return;
-                case "reset":
-                    currentOperandTextBox.Text = "0";
-                    reset_entry = false;
+                case "disable":
+                    clear = true;
+                    reset_entry = true;
+                    start_operation = false;
+                    operator_is_set = false;
+                    additionButton.Enabled = false;
+                    differenceButton.Enabled = false;
+                    multiplicationButton.Enabled = false;
+                    divisionButton.Enabled = false;
+                    oneOverXButton.Enabled = false;
+                    squaredButton.Enabled = false;
+                    squareRootButton.Enabled = false;
+                    mPositiveButton.Enabled = false;
+                    mNegativeButton.Enabled = false;
+                    mcButton.Enabled = false;
+                    mrButton.Enabled = false;
+                    percentageButton.Enabled = false;
+                    positiveNegativeButton.Enabled = false;
                     return;
-
+                case "enable":
+                    additionButton.Enabled = true;
+                    differenceButton.Enabled = true;
+                    multiplicationButton.Enabled = true;
+                    divisionButton.Enabled = true;
+                    oneOverXButton.Enabled = true;
+                    squaredButton.Enabled = true;
+                    squareRootButton.Enabled = true;
+                    mPositiveButton.Enabled = true;
+                    mNegativeButton.Enabled = true;
+                    mcButton.Enabled = true;
+                    mrButton.Enabled = true;
+                    percentageButton.Enabled = true;
+                    positiveNegativeButton.Enabled = true;
+                    return;
                 default:
                     return;
             }
