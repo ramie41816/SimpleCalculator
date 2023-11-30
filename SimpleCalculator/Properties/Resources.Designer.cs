@@ -63,9 +63,9 @@ namespace SimpleCalculator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap backspace {
+        internal static System.Drawing.Bitmap close {
             get {
-                object obj = ResourceManager.GetObject("backspace", resourceCulture);
+                object obj = ResourceManager.GetObject("close", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,39 @@ namespace SimpleCalculator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap backspace1 {
+        internal static System.Drawing.Bitmap maximize {
             get {
-                object obj = ResourceManager.GetObject("backspace1", resourceCulture);
+                object obj = ResourceManager.GetObject("maximize", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap minimize {
+            get {
+                object obj = ResourceManager.GetObject("minimize", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap restore {
+            get {
+                object obj = ResourceManager.GetObject("restore", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemLogo {
+            get {
+                object obj = ResourceManager.GetObject("SystemLogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

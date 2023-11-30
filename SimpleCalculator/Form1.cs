@@ -1,11 +1,24 @@
 ﻿using System.Collections;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SimpleCalculator
 {
     public partial class MainForm : Form
     {
+        //Movable Form Variables
+        private bool drag = false;
+        private Point starting_point;
 
-        private readonly byte MAX_LENGTH = 19;
+        //Current Operand Textbox Details
+        private byte MAX_LENGTH = 20;
+        private byte LENGTH_LIMIT = 17;
+        private float FONT_SIZE = 27.75F;
+
+        //Second Operatnd Textbox Details
+        private byte S_MAX_LENGTH = 20;
+        private byte S_LENGTH_LIMIT = 20;
+        private float S_FONT_SIZE = 21.75F;
+
         private double memory = 0;
 
         private bool operator_is_set = false;
@@ -13,15 +26,9 @@ namespace SimpleCalculator
         private bool reset_entry = false;
         private bool clear = false;
 
-        private double first_term = 0;
-        private double second_term = 0;
-
-        private Queue operations = new Queue();
+        private Queue operations = new();
 
         private string? current_operation;
-
-        private char operator_symbol = '\0';
-
         public MainForm()
         {
             InitializeComponent();
@@ -30,7 +37,7 @@ namespace SimpleCalculator
             currentOperandTextBox.Text = "0";
         }
 
-        private void zeroButton_Click(object sender, EventArgs e)
+        private void ZeroButton_Click(object sender, EventArgs e)
         {
             if (reset_entry)
             {
@@ -43,14 +50,14 @@ namespace SimpleCalculator
                 currentOperandTextBox.Text = "0";
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH && currentOperandTextBox.Text != "0")
+            else if (currentOperandTextBox.Text.Length < (MAX_LENGTH - 1) && currentOperandTextBox.Text != "0")
                 currentOperandTextBox.Text += '0';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void oneButton_Click(object sender, EventArgs e)
+        private void OneButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -64,14 +71,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '1';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void twoButton_Click(object sender, EventArgs e)
+        private void TwoButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -85,14 +92,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '2';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void threeButton_Click(object sender, EventArgs e)
+        private void ThreeButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -106,14 +113,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '3';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void fourButton_Click(object sender, EventArgs e)
+        private void FourButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -127,14 +134,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '4';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void fiveButton_Click(object sender, EventArgs e)
+        private void FiveButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -148,14 +155,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '5';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void sixButton_Click(object sender, EventArgs e)
+        private void SixButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -169,14 +176,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '6';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void sevenButton_Click(object sender, EventArgs e)
+        private void SevenButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -190,14 +197,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '7';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void eightButton_Click(object sender, EventArgs e)
+        private void EightButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -211,14 +218,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '8';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void nineButton_Click(object sender, EventArgs e)
+        private void NineButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -232,14 +239,14 @@ namespace SimpleCalculator
 
                 reset_entry = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH)
+            else if (currentOperandTextBox.Text.Length < MAX_LENGTH - 1)
                 currentOperandTextBox.Text += '9';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void decimalButton_Click(object sender, EventArgs e)
+        private void DecimalButton_Click(object sender, EventArgs e)
         {
             if (reset_entry || currentOperandTextBox.Text == "0")
             {
@@ -255,14 +262,14 @@ namespace SimpleCalculator
                 reset_entry = false;
                 clear = false;
             }
-            else if (currentOperandTextBox.Text.Length < MAX_LENGTH && currentOperandTextBox.Text.IndexOf('.') == -1)
+            else if (currentOperandTextBox.Text.Length < (MAX_LENGTH - 1) && currentOperandTextBox.Text.IndexOf('.') == -1)
                 currentOperandTextBox.Text += '.';
 
             if (operator_is_set)
                 start_operation = true;
         }
 
-        private void backSpaceButton_Click(object sender, EventArgs e)
+        private void BackSpaceButton_Click(object sender, EventArgs e)
         {
             char[] current_stream = currentOperandTextBox.Text.ToCharArray();
 
@@ -279,7 +286,7 @@ namespace SimpleCalculator
             currentOperandTextBox.Text = string.Join("", current_stream);
         }
 
-        private void additionButton_Click(object sender, EventArgs e)
+        private void AdditionButton_Click(object sender, EventArgs e)
         {
             if (operator_is_set && operations.Peek()?.ToString() != "equ")
             {
@@ -307,7 +314,7 @@ namespace SimpleCalculator
             reset_entry = true;
         }
 
-        private void differenceButton_Click(object sender, EventArgs e)
+        private void DifferenceButton_Click(object sender, EventArgs e)
         {
             if (operator_is_set && operations.Peek()?.ToString() != "equ")
             {
@@ -335,7 +342,7 @@ namespace SimpleCalculator
             reset_entry = true;
         }
 
-        private void multiplicationButton_Click(object sender, EventArgs e)
+        private void MultiplicationButton_Click(object sender, EventArgs e)
         {
             if (operator_is_set && operations.Peek()?.ToString() != "equ")
             {
@@ -363,7 +370,7 @@ namespace SimpleCalculator
             reset_entry = true;
         }
 
-        private void divisionButton_Click(object sender, EventArgs e)
+        private void DivisionButton_Click(object sender, EventArgs e)
         {
             if (operator_is_set && operations.Peek()?.ToString() != "equ")
             {
@@ -391,7 +398,7 @@ namespace SimpleCalculator
             reset_entry = true;
         }
 
-        private void equalsButton_Click(object sender, EventArgs e)
+        private void EqualsButton_Click(object sender, EventArgs e)
         {
             if (operations.Count > 0)
             {
@@ -420,7 +427,7 @@ namespace SimpleCalculator
             reset_entry = true;
         }
 
-        private void percentageButton_Click(object sender, EventArgs e)
+        private void PercentageButton_Click(object sender, EventArgs e)
         {
             if (operations.Count > 0 && operations.Peek()?.ToString() != "equ")
             {
@@ -444,7 +451,7 @@ namespace SimpleCalculator
             }
         }
 
-        private void oneOverXButton_Click(object sender, EventArgs e)
+        private void OneOverXButton_Click(object sender, EventArgs e)
         {
             string value;
 
@@ -470,7 +477,7 @@ namespace SimpleCalculator
                 currentOperandTextBox.Text = value;
         }
 
-        private void squareRootButton_Click(object sender, EventArgs e)
+        private void SquareRootButton_Click(object sender, EventArgs e)
         {
             if (operations.Count > 0)
             {
@@ -486,7 +493,7 @@ namespace SimpleCalculator
             }
         }
 
-        private void squaredButton_Click(object sender, EventArgs e)
+        private void SquaredButton_Click(object sender, EventArgs e)
         {
             string value;
 
@@ -512,34 +519,34 @@ namespace SimpleCalculator
                 currentOperandTextBox.Text = value;
         }
 
-        private void positveNegativeButton_Click(object sender, EventArgs e)
+        private void PositveNegativeButton_Click(object sender, EventArgs e)
         {
             currentOperandTextBox.Text = currentOperandTextBox.Text != "0" ? (double.Parse(currentOperandTextBox.Text) * -1).ToString() : "0";
         }
 
-        private void currentOperandTextBox_TextChanged(object sender, EventArgs e)
+        private void CurrentOperandTextBox_TextChanged(object sender, EventArgs e)
         {
             string current_stream = currentOperandTextBox.Text;
 
-            if (double.TryParse(current_stream, out double value))
+            if (double.TryParse(current_stream, out _))
             {
                 int decimal_place = current_stream.IndexOf('.') != -1 ? current_stream.Substring(current_stream.IndexOf('.') + 1).Length : -1;
 
-                if (decimal_place > 0 && current_stream.IndexOf('E') == -1)
+                if (decimal_place > 0 && !current_stream.Contains('E'))
                     current_stream = double.Parse(current_stream).ToString($"N{decimal_place}");
-                else if (decimal_place > 0 && current_stream.IndexOf('E') != -1 || current_stream.Length > MAX_LENGTH)
-                    current_stream = double.Parse(current_stream).ToString($"E7");
+                else if (decimal_place > 0 && current_stream.Contains('E') || current_stream.Length >= MAX_LENGTH)
+                    current_stream = double.Parse(current_stream).ToString($"E10");
                 else if (decimal_place == -1)
                     current_stream = double.Parse(current_stream).ToString("N0");
 
                 currentOperandTextBox.Text = current_stream;
             }
 
-            // Adjust the Font size if the current text field have a size of 13 or greater
-            if (currentOperandTextBox.Text.Length > 13)
+            // Adjust the font size if the size of text field for first operand exceeded the LENGTH_LIMIT
+            if (currentOperandTextBox.Text.Length > LENGTH_LIMIT)
             {
-                float font_size = 27.75F * (13F / currentOperandTextBox.Text.Length);
-                currentOperandTextBox.Font = new Font("Consolas", font_size, FontStyle.Bold, GraphicsUnit.Point);
+                FONT_SIZE = 27.75F * ((float)LENGTH_LIMIT / currentOperandTextBox.Text.Length);
+                currentOperandTextBox.Font = new Font("Consolas", FONT_SIZE, FontStyle.Bold, GraphicsUnit.Point);
             }
             else
             {
@@ -547,12 +554,13 @@ namespace SimpleCalculator
             }
         }
 
-        private void secondOperandTextBox_TextChanged(object sender, EventArgs e)
+        private void SecondOperandTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (secondOperandTextBox.Text.Length > 16)
+            // Adjust the font size if the size of text field for second operand exceeded the LENGTH_LIMIT
+            if (secondOperandTextBox.Text.Length > S_LENGTH_LIMIT)
             {
-                float font_size = 21.75F * (16F / secondOperandTextBox.Text.Length);
-                secondOperandTextBox.Font = new Font("Consolas", font_size, FontStyle.Bold, GraphicsUnit.Point);
+                S_FONT_SIZE = 21.75F * ((float)S_LENGTH_LIMIT / secondOperandTextBox.Text.Length);
+                secondOperandTextBox.Font = new Font("Consolas", S_FONT_SIZE, FontStyle.Bold, GraphicsUnit.Point);
             }
             else
             {
@@ -560,12 +568,10 @@ namespace SimpleCalculator
             }
         }
 
-        private void acButton_Click(object sender, EventArgs e)
+        private void AcButton_Click(object sender, EventArgs e)
         {
             Function("enable");
             Function("clear");
-            first_term = 0;
-            second_term = 0;
             reset_entry = true;
             operator_is_set = false;
             start_operation = false;
@@ -573,7 +579,7 @@ namespace SimpleCalculator
             currentOperandTextBox.Text = "0";
         }
 
-        private void ceButton_Click(object sender, EventArgs e)
+        private void CeButton_Click(object sender, EventArgs e)
         {
             if (!clear)
             {
@@ -581,10 +587,10 @@ namespace SimpleCalculator
                 currentOperandTextBox.Text = "0";
             }
             else
-                acButton_Click(sender, e);
+                AcButton_Click(sender, e);
         }
 
-        private void mPositiveButton_Click(object sender, EventArgs e)
+        private void MPositiveButton_Click(object sender, EventArgs e)
         {
             Arithmetic.x = memory;
             Arithmetic.y = double.Parse(currentOperandTextBox.Text);
@@ -595,7 +601,7 @@ namespace SimpleCalculator
             reset_entry = true;
         }
 
-        private void mNegativeButton_Click(object sender, EventArgs e)
+        private void MNegativeButton_Click(object sender, EventArgs e)
         {
             Arithmetic.x = memory;
             Arithmetic.y = double.Parse(currentOperandTextBox.Text);
@@ -606,16 +612,19 @@ namespace SimpleCalculator
             reset_entry = true;
         }
 
-        private void mcButton_Click(object sender, EventArgs e)
+        private void McButton_Click(object sender, EventArgs e)
         {
-            memory = 0;
-            secondOperandTextBox.Text = string.Format("Memory = {0}", memory);
+            if (memory != 0)
+            {
+                memory = 0;
+                secondOperandTextBox.Text = "Memory Cleared";
 
-            clear = true;
-            reset_entry = true;
+                clear = true;
+                reset_entry = true;
+            }
         }
 
-        private void mrButton_Click(object sender, EventArgs e)
+        private void MrButton_Click(object sender, EventArgs e)
         {
             if (memory != 0)
             {
@@ -624,9 +633,9 @@ namespace SimpleCalculator
             }
         }
 
-        private string FormatString(string args)
+        private static string FormatString(string args)
         {
-            char[] delimiter = {'+', '-', '×', '÷', '='};
+            char[] delimiter = { '+', '-', '×', '÷', '=' };
             string[] stream = args.Trim().Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
 
             if (stream.Length == 1 && args.Length > 18)
@@ -647,7 +656,7 @@ namespace SimpleCalculator
                 return args;
         }
 
-        private void Function(string ? set)
+        private void Function(string? set)
         {
             switch (set)
             {
@@ -692,6 +701,129 @@ namespace SimpleCalculator
                 default:
                     return;
             }
+        }
+
+        // Interactive UI Section && Navigation Functionalities
+        private void Panel_FormHeader_MouseDown(object sender, MouseEventArgs e)
+        {
+            drag = true;
+            starting_point = new Point(e.X, e.Y);
+        }
+
+        private void Panel_FormHeader_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point nextPoint = PointToScreen(e.Location);
+
+            if (drag && WindowState == FormWindowState.Maximized)
+            {
+                Maximize_Application_Click(this, new EventArgs());
+            }
+            else if (drag)
+            {
+                this.Location = new Point(nextPoint.X - this.starting_point.X, nextPoint.Y - this.starting_point.Y);
+            }
+        }
+
+        private void Panel_FormHeader_MouseUp(object sender, MouseEventArgs e)
+        {
+            drag = false;
+        }
+
+        private void Exit_Application_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void Exit_Application_MouseHover(object sender, EventArgs e)
+        {
+            Exit_Application.Size = new Size(30, 30);
+        }
+
+        private void Exit_Application_MouseLeave(object sender, EventArgs e)
+        {
+            Exit_Application.Size = new Size(25, 25);
+        }
+
+        private void Maximize_Application_MouseHover(object sender, EventArgs e)
+        {
+            Maximize_Application.Size = new Size(30, 30);
+        }
+
+        private void Maximize_Application_MouseLeave(object sender, EventArgs e)
+        {
+            Maximize_Application.Size = new Size(25, 25);
+        }
+
+        private void Maximize_Application_Click(object sender, EventArgs e)
+        {
+            if (WindowState != FormWindowState.Maximized)
+            {
+                Maximize_Application.Image = Properties.Resources.restore;
+                WindowState = FormWindowState.Maximized;
+                MainForm_SizeChanged(sender, e);
+            }
+            else
+            {
+                Maximize_Application.Image = Properties.Resources.maximize;
+                WindowState = FormWindowState.Normal;
+            }
+        }
+
+        private void Minimized_Application_MouseHover(object sender, EventArgs e)
+        {
+            Minimized_Application.Size = new Size(30, 30);
+        }
+
+        private void Minimized_Application_MouseLeave(object sender, EventArgs e)
+        {
+            Minimized_Application.Size = new Size(25, 25);
+        }
+
+        private void Minimized_Application_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.NumPad1 || e.KeyCode == Keys.D1)
+                OneButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad2 || e.KeyCode == Keys.D2)
+                TwoButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad3 || e.KeyCode == Keys.D3)
+                ThreeButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad4 || e.KeyCode == Keys.D4)
+                FourButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad5 || e.KeyCode == Keys.D5)
+                FiveButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad6 || e.KeyCode == Keys.D6)
+                SixButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad7 || e.KeyCode == Keys.D7)
+                SevenButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad8 || e.KeyCode == Keys.D8)
+                EightButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad9 || e.KeyCode == Keys.D9)
+                NineButton_Click(sender, e);
+            else if (e.KeyCode == Keys.NumPad0 || e.KeyCode == Keys.D0)
+                ZeroButton_Click(sender, e);
+            else if (e.KeyCode == Keys.Decimal)
+                DecimalButton_Click(sender, e);
+            else if (e.KeyCode == Keys.Add)
+                AdditionButton_Click(sender, e);
+            else if (e.KeyCode == Keys.Subtract)
+                DifferenceButton_Click(sender, e);
+            else if (e.KeyCode == Keys.Multiply)
+                MultiplicationButton_Click(sender, e);
+            else if (e.KeyCode == Keys.Divide)
+                DivisionButton_Click(sender, e);
+            else if (e.KeyCode == Keys.Enter)
+                EqualsButton_Click(sender, e);
+            else if (e.KeyCode == Keys.Back)
+                BackSpaceButton_Click(sender, e);
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
         }
     }
 }
