@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic.Logging;
-using System.Collections;
-using System.Diagnostics.Eventing.Reader;
+﻿using System.Collections;
 
 namespace SimpleCalculator
 {
@@ -16,7 +14,6 @@ namespace SimpleCalculator
         private float FONT_SIZE = 27F;
 
         //Second Operatnd Textbox Details
-        private byte S_MAX_LENGTH = 20;
         private byte S_LENGTH_LIMIT = 20;
         private float S_FONT_SIZE = 21.75F;
 
@@ -545,14 +542,12 @@ namespace SimpleCalculator
 
             // Adjust the font size if the size of text field for first operand exceeded the LENGTH_LIMIT
 
-            MainForm_SizeChanged(sender, e);
+            ReSize();
         }
 
         private void SecondOperandTextBox_TextChanged(object sender, EventArgs e)
         {
-            // Adjust the font size if the size of text field for second operand exceeded the LENGTH_LIMIT
-            
-            MainForm_SizeChanged(sender, e);
+            ReSize();
         }
 
         private void AcButton_Click(object sender, EventArgs e)
@@ -699,16 +694,9 @@ namespace SimpleCalculator
 
         private void Panel_FormHeader_MouseMove(object sender, MouseEventArgs e)
         {
-            Point nextPoint = PointToScreen(e.Location);
-
-            if (drag && WindowState == FormWindowState.Maximized)
-            {
-                Maximize_Application_Click(this, new EventArgs());
-            }
-            else if (drag)
-            {
-                this.Location = new Point(nextPoint.X - this.starting_point.X, nextPoint.Y - this.starting_point.Y);
-            }
+            if (drag)
+                Location = new Point(PointToScreen(e.Location).X - starting_point.X,
+                                 PointToScreen(e.Location).Y -starting_point.Y);
         }
 
         private void Panel_FormHeader_MouseUp(object sender, MouseEventArgs e)
@@ -747,14 +735,15 @@ namespace SimpleCalculator
             {
                 Maximize_Application.Image = Properties.Resources.restore;
                 WindowState = FormWindowState.Maximized;
-                MainForm_SizeChanged(sender, e);
             }
             else
             {
                 Maximize_Application.Image = Properties.Resources.maximize;
                 WindowState = FormWindowState.Normal;
-                MainForm_SizeChanged(sender, e);
+                
             }
+
+            ReSize();
         }
 
         private void Minimized_Application_MouseHover(object sender, EventArgs e)
@@ -811,6 +800,11 @@ namespace SimpleCalculator
         }
 
         private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            ReSize();
+        }
+
+        private void ReSize()
         {
             if (Width > MinimumSize.Width || Height > MinimumSize.Height)
             {

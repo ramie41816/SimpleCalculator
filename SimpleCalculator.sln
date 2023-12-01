@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCalculator", "SimpleCalculator\SimpleCalculator.csproj", "{FF09EE2F-AE06-4EE6-8988-0DC5EC36E046}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleCalculator", "SimpleCalculator\SimpleCalculator.csproj", "{FF09EE2F-AE06-4EE6-8988-0DC5EC36E046}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SimpleCalculatorSetup", "SimpleCalculatorSetup\SimpleCalculatorSetup.vdproj", "{F54DFCC9-1259-46DF-AA6D-A4555EE466F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{FF09EE2F-AE06-4EE6-8988-0DC5EC36E046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF09EE2F-AE06-4EE6-8988-0DC5EC36E046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF09EE2F-AE06-4EE6-8988-0DC5EC36E046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F54DFCC9-1259-46DF-AA6D-A4555EE466F1}.Debug|Any CPU.ActiveCfg = Debug
+		{F54DFCC9-1259-46DF-AA6D-A4555EE466F1}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

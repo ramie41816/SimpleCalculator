@@ -14,7 +14,7 @@ namespace SimpleCalculator
 
         public static string Operation(string? operation)
         {
-            string value = "";
+            string value;
 
             if (operation == "add")
             {

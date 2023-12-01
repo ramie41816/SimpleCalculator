@@ -448,7 +448,7 @@ namespace SimpleCalculator
             // 
             // secondOperandTextBox
             // 
-            secondOperandTextBox.BackColor = SystemColors.ActiveBorder;
+            secondOperandTextBox.BackColor = SystemColors.Control;
             secondOperandTextBox.BorderStyle = BorderStyle.None;
             secondOperandTextBox.Dock = DockStyle.Bottom;
             secondOperandTextBox.Enabled = false;
@@ -702,7 +702,7 @@ namespace SimpleCalculator
             // 
             // tableLayoutPanel_Display
             // 
-            tableLayoutPanel_Display.BackColor = SystemColors.Info;
+            tableLayoutPanel_Display.BackColor = SystemColors.Control;
             tableLayoutPanel_Display.ColumnCount = 1;
             tableLayoutPanel_Display.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel_Display.Controls.Add(currentOperandTextBox, 0, 1);
@@ -718,7 +718,7 @@ namespace SimpleCalculator
             // 
             // currentOperandTextBox
             // 
-            currentOperandTextBox.BackColor = SystemColors.ActiveCaption;
+            currentOperandTextBox.BackColor = SystemColors.Control;
             currentOperandTextBox.BorderStyle = BorderStyle.None;
             currentOperandTextBox.Dock = DockStyle.Bottom;
             currentOperandTextBox.Font = new Font("Consolas", 27F, FontStyle.Bold, GraphicsUnit.Point);
@@ -750,7 +750,6 @@ namespace SimpleCalculator
             MinimizeBox = false;
             MinimumSize = new Size(395, 625);
             Name = "MainForm";
-            SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterScreen;
             SizeChanged += MainForm_SizeChanged;
             KeyUp += MainForm_KeyUp;
