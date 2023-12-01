@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Microsoft.VisualBasic.Logging;
+using System.Collections;
 using System.Diagnostics.Eventing.Reader;
 
 namespace SimpleCalculator
@@ -12,7 +13,7 @@ namespace SimpleCalculator
         //Current Operand Textbox Details
         private byte MAX_LENGTH = 20;
         private byte LENGTH_LIMIT = 17;
-        private float FONT_SIZE = 27.75F;
+        private float FONT_SIZE = 27F;
 
         //Second Operatnd Textbox Details
         private byte S_MAX_LENGTH = 20;
@@ -543,29 +544,15 @@ namespace SimpleCalculator
             }
 
             // Adjust the font size if the size of text field for first operand exceeded the LENGTH_LIMIT
-            if (currentOperandTextBox.Text.Length > LENGTH_LIMIT)
-            {
-                FONT_SIZE = 27.75F * ((float)LENGTH_LIMIT / currentOperandTextBox.Text.Length);
-                currentOperandTextBox.Font = new Font("Consolas", FONT_SIZE, FontStyle.Bold, GraphicsUnit.Point);
-            }
-            else
-            {
-                currentOperandTextBox.Font = new Font("Consolas", 27.75F, FontStyle.Bold, GraphicsUnit.Point);
-            }
+
+            MainForm_SizeChanged(sender, e);
         }
 
         private void SecondOperandTextBox_TextChanged(object sender, EventArgs e)
         {
             // Adjust the font size if the size of text field for second operand exceeded the LENGTH_LIMIT
-            if (secondOperandTextBox.Text.Length > S_LENGTH_LIMIT)
-            {
-                S_FONT_SIZE = 21.75F * ((float)S_LENGTH_LIMIT / secondOperandTextBox.Text.Length);
-                secondOperandTextBox.Font = new Font("Consolas", S_FONT_SIZE, FontStyle.Bold, GraphicsUnit.Point);
-            }
-            else
-            {
-                secondOperandTextBox.Font = new Font("Consolas", 21.75F, FontStyle.Bold, GraphicsUnit.Point);
-            }
+            
+            MainForm_SizeChanged(sender, e);
         }
 
         private void AcButton_Click(object sender, EventArgs e)
@@ -766,6 +753,7 @@ namespace SimpleCalculator
             {
                 Maximize_Application.Image = Properties.Resources.maximize;
                 WindowState = FormWindowState.Normal;
+                MainForm_SizeChanged(sender, e);
             }
         }
 
@@ -824,6 +812,33 @@ namespace SimpleCalculator
 
         private void MainForm_SizeChanged(object sender, EventArgs e)
         {
+            if (Width > MinimumSize.Width || Height > MinimumSize.Height)
+            {
+                float x_ratio = (float)Width / MinimumSize.Width;
+                float y_ratio = (float)Height / MinimumSize.Height;
+
+                float ratio = x_ratio >= y_ratio ? y_ratio : x_ratio;
+
+                FONT_SIZE = 27F * ratio;
+                S_FONT_SIZE = 21.75F * ratio;
+                LENGTH_LIMIT = (byte)(17 * ratio);
+                S_LENGTH_LIMIT = (byte)(20 * ratio);
+            }
+            else if (Width == MinimumSize.Width && Height == MinimumSize.Height)
+            {
+                FONT_SIZE = 27F;
+                S_FONT_SIZE = 21.75F;
+                LENGTH_LIMIT = 17;
+                S_LENGTH_LIMIT = 20;
+
+                if (currentOperandTextBox.Text.Length > LENGTH_LIMIT)
+                    FONT_SIZE = 27F * ((float)LENGTH_LIMIT / currentOperandTextBox.Text.Length);
+                if (secondOperandTextBox.Text.Length > S_LENGTH_LIMIT)
+                    S_FONT_SIZE = 21.75F * ((float)S_LENGTH_LIMIT / secondOperandTextBox.Text.Length);
+            }
+
+            currentOperandTextBox.Font = new Font("Consolas", FONT_SIZE, FontStyle.Bold, GraphicsUnit.Point);
+            secondOperandTextBox.Font = new Font("Consolas", S_FONT_SIZE, FontStyle.Bold, GraphicsUnit.Point);
         }
     }
 }

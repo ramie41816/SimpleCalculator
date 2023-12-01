@@ -70,7 +70,7 @@ namespace SimpleCalculator
             threeButton = new Button();
             tableLayoutPanel_Buttons_Lower = new TableLayoutPanel();
             tableLayoutPanel_MainControl = new TableLayoutPanel();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            tableLayoutPanel_Display = new TableLayoutPanel();
             currentOperandTextBox = new TextBox();
             panel_FormHeader.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -81,7 +81,7 @@ namespace SimpleCalculator
             tableLayoutPanel_Buttons_Upper.SuspendLayout();
             tableLayoutPanel_Buttons_Lower.SuspendLayout();
             tableLayoutPanel_MainControl.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
+            tableLayoutPanel_Display.SuspendLayout();
             SuspendLayout();
             // 
             // appTitleLable
@@ -101,9 +101,9 @@ namespace SimpleCalculator
             percentageButton.FlatAppearance.BorderSize = 0;
             percentageButton.FlatStyle = FlatStyle.Flat;
             percentageButton.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            percentageButton.Location = new Point(283, 135);
+            percentageButton.Location = new Point(275, 137);
             percentageButton.Name = "percentageButton";
-            percentageButton.Size = new Size(65, 60);
+            percentageButton.Size = new Size(66, 61);
             percentageButton.TabIndex = 37;
             percentageButton.Text = "%";
             percentageButton.UseVisualStyleBackColor = false;
@@ -116,9 +116,9 @@ namespace SimpleCalculator
             oneOverXButton.FlatAppearance.BorderSize = 0;
             oneOverXButton.FlatStyle = FlatStyle.Flat;
             oneOverXButton.Font = new Font("Consolas", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            oneOverXButton.Location = new Point(213, 135);
+            oneOverXButton.Location = new Point(207, 137);
             oneOverXButton.Name = "oneOverXButton";
-            oneOverXButton.Size = new Size(64, 60);
+            oneOverXButton.Size = new Size(62, 61);
             oneOverXButton.TabIndex = 36;
             oneOverXButton.Text = "1/x";
             oneOverXButton.UseVisualStyleBackColor = false;
@@ -131,9 +131,9 @@ namespace SimpleCalculator
             decimalButton.FlatAppearance.BorderSize = 0;
             decimalButton.FlatStyle = FlatStyle.Flat;
             decimalButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            decimalButton.Location = new Point(143, 3);
+            decimalButton.Location = new Point(140, 3);
             decimalButton.Name = "decimalButton";
-            decimalButton.Size = new Size(64, 67);
+            decimalButton.Size = new Size(62, 67);
             decimalButton.TabIndex = 35;
             decimalButton.Text = ".";
             decimalButton.UseVisualStyleBackColor = false;
@@ -148,7 +148,7 @@ namespace SimpleCalculator
             zeroButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
             zeroButton.Location = new Point(3, 3);
             zeroButton.Name = "zeroButton";
-            zeroButton.Size = new Size(134, 67);
+            zeroButton.Size = new Size(131, 67);
             zeroButton.TabIndex = 34;
             zeroButton.Text = "0";
             zeroButton.UseVisualStyleBackColor = false;
@@ -161,9 +161,9 @@ namespace SimpleCalculator
             nineButton.FlatAppearance.BorderSize = 0;
             nineButton.FlatStyle = FlatStyle.Flat;
             nineButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            nineButton.Location = new Point(143, 135);
+            nineButton.Location = new Point(139, 137);
             nineButton.Name = "nineButton";
-            nineButton.Size = new Size(64, 60);
+            nineButton.Size = new Size(62, 61);
             nineButton.TabIndex = 31;
             nineButton.Text = "9";
             nineButton.UseVisualStyleBackColor = false;
@@ -176,9 +176,9 @@ namespace SimpleCalculator
             equalsButton.FlatAppearance.BorderSize = 0;
             equalsButton.FlatStyle = FlatStyle.Flat;
             equalsButton.Font = new Font("Consolas", 25F, FontStyle.Bold, GraphicsUnit.Point);
-            equalsButton.Location = new Point(213, 3);
+            equalsButton.Location = new Point(208, 3);
             equalsButton.Name = "equalsButton";
-            equalsButton.Size = new Size(135, 67);
+            equalsButton.Size = new Size(133, 67);
             equalsButton.TabIndex = 30;
             equalsButton.Text = "=";
             equalsButton.UseVisualStyleBackColor = false;
@@ -191,9 +191,9 @@ namespace SimpleCalculator
             multiplicationButton.FlatAppearance.BorderSize = 0;
             multiplicationButton.FlatStyle = FlatStyle.Flat;
             multiplicationButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            multiplicationButton.Location = new Point(283, 201);
+            multiplicationButton.Location = new Point(275, 204);
             multiplicationButton.Name = "multiplicationButton";
-            multiplicationButton.Size = new Size(65, 60);
+            multiplicationButton.Size = new Size(66, 61);
             multiplicationButton.TabIndex = 29;
             multiplicationButton.Text = "x";
             multiplicationButton.UseVisualStyleBackColor = false;
@@ -206,9 +206,9 @@ namespace SimpleCalculator
             divisionButton.FlatAppearance.BorderSize = 0;
             divisionButton.FlatStyle = FlatStyle.Flat;
             divisionButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            divisionButton.Location = new Point(213, 201);
+            divisionButton.Location = new Point(207, 204);
             divisionButton.Name = "divisionButton";
-            divisionButton.Size = new Size(64, 60);
+            divisionButton.Size = new Size(62, 61);
             divisionButton.TabIndex = 28;
             divisionButton.Text = "÷";
             divisionButton.UseVisualStyleBackColor = false;
@@ -221,9 +221,9 @@ namespace SimpleCalculator
             sixButton.FlatAppearance.BorderSize = 0;
             sixButton.FlatStyle = FlatStyle.Flat;
             sixButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            sixButton.Location = new Point(143, 201);
+            sixButton.Location = new Point(139, 204);
             sixButton.Name = "sixButton";
-            sixButton.Size = new Size(64, 60);
+            sixButton.Size = new Size(62, 61);
             sixButton.TabIndex = 24;
             sixButton.Text = "6";
             sixButton.UseVisualStyleBackColor = false;
@@ -236,9 +236,9 @@ namespace SimpleCalculator
             fiveButton.FlatAppearance.BorderSize = 0;
             fiveButton.FlatStyle = FlatStyle.Flat;
             fiveButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            fiveButton.Location = new Point(73, 201);
+            fiveButton.Location = new Point(71, 204);
             fiveButton.Name = "fiveButton";
-            fiveButton.Size = new Size(64, 60);
+            fiveButton.Size = new Size(62, 61);
             fiveButton.TabIndex = 23;
             fiveButton.Text = "5";
             fiveButton.UseVisualStyleBackColor = false;
@@ -251,9 +251,9 @@ namespace SimpleCalculator
             fourButton.FlatAppearance.BorderSize = 0;
             fourButton.FlatStyle = FlatStyle.Flat;
             fourButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            fourButton.Location = new Point(3, 201);
+            fourButton.Location = new Point(3, 204);
             fourButton.Name = "fourButton";
-            fourButton.Size = new Size(64, 60);
+            fourButton.Size = new Size(62, 61);
             fourButton.TabIndex = 22;
             fourButton.Text = "4";
             fourButton.UseVisualStyleBackColor = false;
@@ -266,9 +266,9 @@ namespace SimpleCalculator
             eightButton.FlatAppearance.BorderSize = 0;
             eightButton.FlatStyle = FlatStyle.Flat;
             eightButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            eightButton.Location = new Point(73, 135);
+            eightButton.Location = new Point(71, 137);
             eightButton.Name = "eightButton";
-            eightButton.Size = new Size(64, 60);
+            eightButton.Size = new Size(62, 61);
             eightButton.TabIndex = 20;
             eightButton.Text = "8";
             eightButton.UseVisualStyleBackColor = false;
@@ -281,9 +281,9 @@ namespace SimpleCalculator
             sevenButton.FlatAppearance.BorderSize = 0;
             sevenButton.FlatStyle = FlatStyle.Flat;
             sevenButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            sevenButton.Location = new Point(3, 135);
+            sevenButton.Location = new Point(3, 137);
             sevenButton.Name = "sevenButton";
-            sevenButton.Size = new Size(64, 60);
+            sevenButton.Size = new Size(62, 61);
             sevenButton.TabIndex = 19;
             sevenButton.Text = "7";
             sevenButton.UseVisualStyleBackColor = false;
@@ -296,9 +296,9 @@ namespace SimpleCalculator
             squaredButton.FlatAppearance.BorderSize = 0;
             squaredButton.FlatStyle = FlatStyle.Flat;
             squaredButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            squaredButton.Location = new Point(283, 69);
+            squaredButton.Location = new Point(275, 70);
             squaredButton.Name = "squaredButton";
-            squaredButton.Size = new Size(65, 60);
+            squaredButton.Size = new Size(66, 61);
             squaredButton.TabIndex = 18;
             squaredButton.Text = "x²";
             squaredButton.UseVisualStyleBackColor = false;
@@ -311,9 +311,9 @@ namespace SimpleCalculator
             squareRootButton.FlatAppearance.BorderSize = 0;
             squareRootButton.FlatStyle = FlatStyle.Flat;
             squareRootButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            squareRootButton.Location = new Point(213, 69);
+            squareRootButton.Location = new Point(207, 70);
             squareRootButton.Name = "squareRootButton";
-            squareRootButton.Size = new Size(64, 60);
+            squareRootButton.Size = new Size(62, 61);
             squareRootButton.TabIndex = 17;
             squareRootButton.Text = "√";
             squareRootButton.UseVisualStyleBackColor = false;
@@ -326,9 +326,9 @@ namespace SimpleCalculator
             positiveNegativeButton.FlatAppearance.BorderSize = 0;
             positiveNegativeButton.FlatStyle = FlatStyle.Flat;
             positiveNegativeButton.Font = new Font("Consolas", 24F, FontStyle.Bold, GraphicsUnit.Point);
-            positiveNegativeButton.Location = new Point(143, 69);
+            positiveNegativeButton.Location = new Point(139, 70);
             positiveNegativeButton.Name = "positiveNegativeButton";
-            positiveNegativeButton.Size = new Size(64, 60);
+            positiveNegativeButton.Size = new Size(62, 61);
             positiveNegativeButton.TabIndex = 16;
             positiveNegativeButton.Text = "±";
             positiveNegativeButton.UseVisualStyleBackColor = false;
@@ -341,9 +341,9 @@ namespace SimpleCalculator
             ceButton.FlatAppearance.BorderSize = 0;
             ceButton.FlatStyle = FlatStyle.Flat;
             ceButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            ceButton.Location = new Point(73, 69);
+            ceButton.Location = new Point(71, 70);
             ceButton.Name = "ceButton";
-            ceButton.Size = new Size(64, 60);
+            ceButton.Size = new Size(62, 61);
             ceButton.TabIndex = 15;
             ceButton.Text = "CE";
             ceButton.UseVisualStyleBackColor = false;
@@ -356,9 +356,9 @@ namespace SimpleCalculator
             acButton.FlatAppearance.BorderSize = 0;
             acButton.FlatStyle = FlatStyle.Flat;
             acButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            acButton.Location = new Point(3, 69);
+            acButton.Location = new Point(3, 70);
             acButton.Name = "acButton";
-            acButton.Size = new Size(64, 60);
+            acButton.Size = new Size(62, 61);
             acButton.TabIndex = 14;
             acButton.Text = "AC";
             acButton.UseVisualStyleBackColor = false;
@@ -373,9 +373,9 @@ namespace SimpleCalculator
             backSpaceButton.FlatStyle = FlatStyle.Flat;
             backSpaceButton.Font = new Font("Consolas", 24F, FontStyle.Bold, GraphicsUnit.Point);
             backSpaceButton.ForeColor = Color.Black;
-            backSpaceButton.Location = new Point(283, 3);
+            backSpaceButton.Location = new Point(275, 3);
             backSpaceButton.Name = "backSpaceButton";
-            backSpaceButton.Size = new Size(65, 60);
+            backSpaceButton.Size = new Size(66, 61);
             backSpaceButton.TabIndex = 13;
             backSpaceButton.Text = "⌫";
             backSpaceButton.UseVisualStyleBackColor = false;
@@ -389,9 +389,9 @@ namespace SimpleCalculator
             mrButton.FlatStyle = FlatStyle.Flat;
             mrButton.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
             mrButton.ForeColor = Color.White;
-            mrButton.Location = new Point(213, 3);
+            mrButton.Location = new Point(207, 3);
             mrButton.Name = "mrButton";
-            mrButton.Size = new Size(64, 60);
+            mrButton.Size = new Size(62, 61);
             mrButton.TabIndex = 12;
             mrButton.Text = "MR";
             mrButton.UseVisualStyleBackColor = false;
@@ -405,9 +405,9 @@ namespace SimpleCalculator
             mPositiveButton.FlatStyle = FlatStyle.Flat;
             mPositiveButton.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
             mPositiveButton.ForeColor = Color.White;
-            mPositiveButton.Location = new Point(143, 3);
+            mPositiveButton.Location = new Point(139, 3);
             mPositiveButton.Name = "mPositiveButton";
-            mPositiveButton.Size = new Size(64, 60);
+            mPositiveButton.Size = new Size(62, 61);
             mPositiveButton.TabIndex = 11;
             mPositiveButton.Text = "M+";
             mPositiveButton.UseVisualStyleBackColor = false;
@@ -421,9 +421,9 @@ namespace SimpleCalculator
             mNegativeButton.FlatStyle = FlatStyle.Flat;
             mNegativeButton.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
             mNegativeButton.ForeColor = Color.White;
-            mNegativeButton.Location = new Point(73, 3);
+            mNegativeButton.Location = new Point(71, 3);
             mNegativeButton.Name = "mNegativeButton";
-            mNegativeButton.Size = new Size(64, 60);
+            mNegativeButton.Size = new Size(62, 61);
             mNegativeButton.TabIndex = 10;
             mNegativeButton.Text = "M-";
             mNegativeButton.UseVisualStyleBackColor = false;
@@ -440,7 +440,7 @@ namespace SimpleCalculator
             mcButton.ForeColor = Color.White;
             mcButton.Location = new Point(3, 3);
             mcButton.Name = "mcButton";
-            mcButton.Size = new Size(64, 60);
+            mcButton.Size = new Size(62, 61);
             mcButton.TabIndex = 0;
             mcButton.Text = "MC";
             mcButton.UseVisualStyleBackColor = false;
@@ -448,16 +448,16 @@ namespace SimpleCalculator
             // 
             // secondOperandTextBox
             // 
-            secondOperandTextBox.Anchor = AnchorStyles.Right;
-            secondOperandTextBox.BackColor = SystemColors.Control;
+            secondOperandTextBox.BackColor = SystemColors.ActiveBorder;
             secondOperandTextBox.BorderStyle = BorderStyle.None;
+            secondOperandTextBox.Dock = DockStyle.Bottom;
             secondOperandTextBox.Enabled = false;
             secondOperandTextBox.Font = new Font("Consolas", 21.75F, FontStyle.Regular, GraphicsUnit.Point);
-            secondOperandTextBox.Location = new Point(3, 11);
+            secondOperandTextBox.Location = new Point(3, 12);
             secondOperandTextBox.MaxLength = 20;
             secondOperandTextBox.Name = "secondOperandTextBox";
             secondOperandTextBox.ReadOnly = true;
-            secondOperandTextBox.Size = new Size(345, 34);
+            secondOperandTextBox.Size = new Size(338, 34);
             secondOperandTextBox.TabIndex = 1;
             secondOperandTextBox.TabStop = false;
             secondOperandTextBox.TextAlign = HorizontalAlignment.Right;
@@ -471,7 +471,7 @@ namespace SimpleCalculator
             panel_FormHeader.Controls.Add(appTitleLable);
             panel_FormHeader.Location = new Point(-7, -14);
             panel_FormHeader.Name = "panel_FormHeader";
-            panel_FormHeader.Size = new Size(400, 63);
+            panel_FormHeader.Size = new Size(468, 63);
             panel_FormHeader.TabIndex = 4;
             panel_FormHeader.MouseDown += Panel_FormHeader_MouseDown;
             panel_FormHeader.MouseMove += Panel_FormHeader_MouseMove;
@@ -487,7 +487,7 @@ namespace SimpleCalculator
             tableLayoutPanel1.Controls.Add(Minimized_Application, 0, 0);
             tableLayoutPanel1.Controls.Add(Maximize_Application, 1, 0);
             tableLayoutPanel1.Controls.Add(Exit_Application, 2, 0);
-            tableLayoutPanel1.Location = new Point(269, 25);
+            tableLayoutPanel1.Location = new Point(264, 25);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -580,7 +580,7 @@ namespace SimpleCalculator
             tableLayoutPanel_Buttons_Upper.Controls.Add(eightButton, 1, 2);
             tableLayoutPanel_Buttons_Upper.Controls.Add(mcButton, 0, 0);
             tableLayoutPanel_Buttons_Upper.Controls.Add(threeButton, 2, 4);
-            tableLayoutPanel_Buttons_Upper.Location = new Point(3, 107);
+            tableLayoutPanel_Buttons_Upper.Location = new Point(3, 108);
             tableLayoutPanel_Buttons_Upper.Name = "tableLayoutPanel_Buttons_Upper";
             tableLayoutPanel_Buttons_Upper.RowCount = 5;
             tableLayoutPanel_Buttons_Upper.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
@@ -588,7 +588,7 @@ namespace SimpleCalculator
             tableLayoutPanel_Buttons_Upper.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel_Buttons_Upper.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel_Buttons_Upper.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel_Buttons_Upper.Size = new Size(351, 333);
+            tableLayoutPanel_Buttons_Upper.Size = new Size(344, 335);
             tableLayoutPanel_Buttons_Upper.TabIndex = 5;
             // 
             // additionButton
@@ -598,9 +598,9 @@ namespace SimpleCalculator
             additionButton.FlatAppearance.BorderSize = 0;
             additionButton.FlatStyle = FlatStyle.Flat;
             additionButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            additionButton.Location = new Point(283, 267);
+            additionButton.Location = new Point(275, 271);
             additionButton.Name = "additionButton";
-            additionButton.Size = new Size(65, 63);
+            additionButton.Size = new Size(66, 61);
             additionButton.TabIndex = 33;
             additionButton.Text = "+";
             additionButton.UseVisualStyleBackColor = false;
@@ -613,9 +613,9 @@ namespace SimpleCalculator
             differenceButton.FlatAppearance.BorderSize = 0;
             differenceButton.FlatStyle = FlatStyle.Flat;
             differenceButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            differenceButton.Location = new Point(213, 267);
+            differenceButton.Location = new Point(207, 271);
             differenceButton.Name = "differenceButton";
-            differenceButton.Size = new Size(64, 63);
+            differenceButton.Size = new Size(62, 61);
             differenceButton.TabIndex = 32;
             differenceButton.Text = "−";
             differenceButton.UseVisualStyleBackColor = false;
@@ -628,9 +628,9 @@ namespace SimpleCalculator
             twoButton.FlatAppearance.BorderSize = 0;
             twoButton.FlatStyle = FlatStyle.Flat;
             twoButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            twoButton.Location = new Point(73, 267);
+            twoButton.Location = new Point(71, 271);
             twoButton.Name = "twoButton";
-            twoButton.Size = new Size(64, 63);
+            twoButton.Size = new Size(62, 61);
             twoButton.TabIndex = 26;
             twoButton.Text = "2";
             twoButton.UseVisualStyleBackColor = false;
@@ -643,9 +643,9 @@ namespace SimpleCalculator
             oneButton.FlatAppearance.BorderSize = 0;
             oneButton.FlatStyle = FlatStyle.Flat;
             oneButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            oneButton.Location = new Point(3, 267);
+            oneButton.Location = new Point(3, 271);
             oneButton.Name = "oneButton";
-            oneButton.Size = new Size(64, 63);
+            oneButton.Size = new Size(62, 61);
             oneButton.TabIndex = 25;
             oneButton.Text = "1";
             oneButton.UseVisualStyleBackColor = false;
@@ -658,9 +658,9 @@ namespace SimpleCalculator
             threeButton.FlatAppearance.BorderSize = 0;
             threeButton.FlatStyle = FlatStyle.Flat;
             threeButton.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            threeButton.Location = new Point(143, 267);
+            threeButton.Location = new Point(139, 271);
             threeButton.Name = "threeButton";
-            threeButton.Size = new Size(64, 63);
+            threeButton.Size = new Size(62, 61);
             threeButton.TabIndex = 27;
             threeButton.Text = "3";
             threeButton.UseVisualStyleBackColor = false;
@@ -676,11 +676,11 @@ namespace SimpleCalculator
             tableLayoutPanel_Buttons_Lower.Controls.Add(zeroButton, 0, 0);
             tableLayoutPanel_Buttons_Lower.Controls.Add(equalsButton, 2, 0);
             tableLayoutPanel_Buttons_Lower.Controls.Add(decimalButton, 1, 0);
-            tableLayoutPanel_Buttons_Lower.Location = new Point(3, 446);
+            tableLayoutPanel_Buttons_Lower.Location = new Point(3, 449);
             tableLayoutPanel_Buttons_Lower.Name = "tableLayoutPanel_Buttons_Lower";
             tableLayoutPanel_Buttons_Lower.RowCount = 1;
             tableLayoutPanel_Buttons_Lower.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel_Buttons_Lower.Size = new Size(351, 73);
+            tableLayoutPanel_Buttons_Lower.Size = new Size(344, 73);
             tableLayoutPanel_Buttons_Lower.TabIndex = 6;
             // 
             // tableLayoutPanel_MainControl
@@ -688,41 +688,46 @@ namespace SimpleCalculator
             tableLayoutPanel_MainControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel_MainControl.ColumnCount = 1;
             tableLayoutPanel_MainControl.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel_MainControl.Controls.Add(flowLayoutPanel1, 0, 0);
+            tableLayoutPanel_MainControl.Controls.Add(tableLayoutPanel_Display, 0, 0);
             tableLayoutPanel_MainControl.Controls.Add(tableLayoutPanel_Buttons_Lower, 0, 2);
             tableLayoutPanel_MainControl.Controls.Add(tableLayoutPanel_Buttons_Upper, 0, 1);
-            tableLayoutPanel_MainControl.Location = new Point(15, 50);
+            tableLayoutPanel_MainControl.Location = new Point(15, 71);
             tableLayoutPanel_MainControl.Name = "tableLayoutPanel_MainControl";
             tableLayoutPanel_MainControl.RowCount = 3;
             tableLayoutPanel_MainControl.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel_MainControl.RowStyles.Add(new RowStyle(SizeType.Percent, 65F));
             tableLayoutPanel_MainControl.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-            tableLayoutPanel_MainControl.Size = new Size(357, 522);
+            tableLayoutPanel_MainControl.Size = new Size(350, 525);
             tableLayoutPanel_MainControl.TabIndex = 8;
             // 
-            // flowLayoutPanel1
+            // tableLayoutPanel_Display
             // 
-            flowLayoutPanel1.Controls.Add(currentOperandTextBox);
-            flowLayoutPanel1.Controls.Add(secondOperandTextBox);
-            flowLayoutPanel1.Dock = DockStyle.Fill;
-            flowLayoutPanel1.FlowDirection = FlowDirection.BottomUp;
-            flowLayoutPanel1.Location = new Point(3, 3);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Padding = new Padding(0, 0, 10, 0);
-            flowLayoutPanel1.Size = new Size(351, 98);
-            flowLayoutPanel1.TabIndex = 9;
+            tableLayoutPanel_Display.BackColor = SystemColors.Info;
+            tableLayoutPanel_Display.ColumnCount = 1;
+            tableLayoutPanel_Display.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel_Display.Controls.Add(currentOperandTextBox, 0, 1);
+            tableLayoutPanel_Display.Controls.Add(secondOperandTextBox, 0, 0);
+            tableLayoutPanel_Display.Dock = DockStyle.Fill;
+            tableLayoutPanel_Display.Location = new Point(3, 3);
+            tableLayoutPanel_Display.Name = "tableLayoutPanel_Display";
+            tableLayoutPanel_Display.RowCount = 2;
+            tableLayoutPanel_Display.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel_Display.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel_Display.Size = new Size(344, 99);
+            tableLayoutPanel_Display.TabIndex = 9;
             // 
             // currentOperandTextBox
             // 
-            currentOperandTextBox.Anchor = AnchorStyles.Right;
-            currentOperandTextBox.BackColor = SystemColors.Control;
+            currentOperandTextBox.BackColor = SystemColors.ActiveCaption;
             currentOperandTextBox.BorderStyle = BorderStyle.None;
-            currentOperandTextBox.Font = new Font("Consolas", 27.75F, FontStyle.Bold, GraphicsUnit.Point);
-            currentOperandTextBox.Location = new Point(3, 51);
+            currentOperandTextBox.Dock = DockStyle.Bottom;
+            currentOperandTextBox.Font = new Font("Consolas", 27F, FontStyle.Bold, GraphicsUnit.Point);
+            currentOperandTextBox.Location = new Point(0, 56);
+            currentOperandTextBox.Margin = new Padding(0);
             currentOperandTextBox.MaxLength = 20;
             currentOperandTextBox.Name = "currentOperandTextBox";
             currentOperandTextBox.ReadOnly = true;
-            currentOperandTextBox.Size = new Size(345, 44);
+            currentOperandTextBox.Size = new Size(344, 43);
             currentOperandTextBox.TabIndex = 2;
             currentOperandTextBox.TabStop = false;
             currentOperandTextBox.TextAlign = HorizontalAlignment.Right;
@@ -734,7 +739,7 @@ namespace SimpleCalculator
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(384, 584);
+            ClientSize = new Size(379, 609);
             ControlBox = false;
             Controls.Add(tableLayoutPanel_MainControl);
             Controls.Add(panel_FormHeader);
@@ -743,7 +748,7 @@ namespace SimpleCalculator
             KeyPreview = true;
             MaximizeBox = false;
             MinimizeBox = false;
-            MinimumSize = new Size(400, 600);
+            MinimumSize = new Size(395, 625);
             Name = "MainForm";
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterScreen;
@@ -760,8 +765,8 @@ namespace SimpleCalculator
             tableLayoutPanel_Buttons_Upper.PerformLayout();
             tableLayoutPanel_Buttons_Lower.ResumeLayout(false);
             tableLayoutPanel_MainControl.ResumeLayout(false);
-            flowLayoutPanel1.ResumeLayout(false);
-            flowLayoutPanel1.PerformLayout();
+            tableLayoutPanel_Display.ResumeLayout(false);
+            tableLayoutPanel_Display.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -805,7 +810,7 @@ namespace SimpleCalculator
         private PictureBox Minimized_Application;
         private PictureBox Maximize_Application;
         private TableLayoutPanel tableLayoutPanel1;
-        private FlowLayoutPanel flowLayoutPanel1;
         private TextBox currentOperandTextBox;
+        private TableLayoutPanel tableLayoutPanel_Display;
     }
 }
